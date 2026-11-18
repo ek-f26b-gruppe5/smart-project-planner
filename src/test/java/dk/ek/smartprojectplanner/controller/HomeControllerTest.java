@@ -24,7 +24,7 @@ class HomeControllerTest {
     void index_showsDbStatus() throws Exception {
         when(healthService.databaseStatus()).thenReturn("OK");
 
-        mockMvc.perform(get("/"))
+        mockMvc.perform(get("/").sessionAttr("userId", 1).sessionAttr("userName", "Test"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andExpect(model().attribute("dbStatus", "OK"));

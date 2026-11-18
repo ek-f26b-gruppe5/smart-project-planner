@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="da">
-<head><meta charset="UTF-8"><title>App</title></head>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Forside')}"><title>Forside</title></head>
 <body>
-<h1>App</h1>
-<p>Database: <span th:text="${dbStatus}">?</span></p>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <h1>Smart Project Planner</h1>
+    <p class="text-muted">Logget ind som <span th:text="${session.userName}">navn</span>.</p>
+    <p>Database: <span th:text="${dbStatus}">?</span></p>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>
