@@ -1,6 +1,6 @@
-package dk.ek.template.service;
+package dk.ek.smartprojectplanner.service;
 
-import dk.ek.template.repository.HealthRepository;
+import dk.ek.smartprojectplanner.repository.HealthRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,6 +1,6 @@
-package dk.ek.template.controller;
+package dk.ek.smartprojectplanner.controller;
 
-import dk.ek.template.service.HealthService;
+import dk.ek.smartprojectplanner.service.HealthService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
