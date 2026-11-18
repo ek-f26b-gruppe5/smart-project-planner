@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="da">
-<head><meta charset="UTF-8"><title>Siden findes ikke</title></head>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Siden findes ikke')}"><title>Siden findes ikke</title></head>
 <body>
-<h1>Siden findes ikke</h1>
-<p><a th:href="@{/}">Tilbage til forsiden</a></p>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <h1>Siden findes ikke</h1>
+    <p>Det, du leder efter, findes ikke, eller du har ikke adgang til det.</p>
+    <p><a th:href="@{/}">Tilbage til forsiden</a></p>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>
