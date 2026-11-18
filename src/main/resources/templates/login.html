@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Log ind')}"><title>Log ind</title></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container container--narrow">
+    <h1>Log ind</h1>
+
+    <th:block th:if="${flash}"><p th:replace="~{fragments/layout :: flash(${flash})}"></p></th:block>
+    <p class="alert alert--error" role="alert" th:if="${error}" th:text="${error}"></p>
+
+    <form class="card" method="post" th:action="@{/login}">
+        <label class="form__field">E-mail
+            <input class="form__input" type="email" name="email" autocomplete="email" required>
+        </label>
+        <label class="form__field">Adgangskode
+            <input class="form__input" type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <button class="btn btn--primary" type="submit">Log ind</button>
+    </form>
+
+    <p>Ny bruger? <a th:href="@{/register}">Opret en konto</a></p>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

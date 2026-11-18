@@ -1,0 +1,216 @@
+/* ==========================================================================
+   Smart Project Planner – style.css
+
+   Read top to bottom:
+     1. Design tokens  – colours, type, spacing (change the look here only)
+     2. Base           – defaults for plain HTML elements, no classes
+     3. Layout         – page structure: container, header, footer
+     4. Components     – reusable pieces: buttons, cards, forms, alerts
+     5. Utilities      – small single-purpose helpers
+
+   Conventions:
+     - Class names follow BEM: block, block__element, block--modifier
+     - Colours, spacing and sizes only through the tokens in :root
+     - rem for sizes, so the user's browser font size is respected
+     - No inline styles in the HTML and no IDs in the CSS
+   ========================================================================== */
+
+
+/* 1. Design tokens
+   ========================================================================== */
+
+:root {
+    /* Colours */
+    --color-primary: #1f4e79;
+    --color-primary-hover: #163a5a;
+    --color-on-primary: #ffffff;
+    --color-text: #222222;
+    --color-text-muted: #5f5f5f;
+    --color-border: #d0d0d0;
+    --color-background: #ffffff;
+    --color-surface: #f6f7f9;
+    --color-success-background: #e6f4ea;
+    --color-success-text: #1e5631;
+    --color-error-background: #fdecea;
+    --color-error-text: #8a1c1c;
+
+    /* Typography */
+    --font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-size-base: 1rem;
+    --font-size-small: 0.875rem;
+    --line-height-base: 1.5;
+    --line-height-heading: 1.2;
+
+    /* Spacing scale */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+
+    /* Shapes and widths */
+    --radius: 0.25rem;
+    --border-width: 1px;
+    --container-width: 60rem;
+    --container-width-narrow: 26rem;
+}
+
+
+/* 2. Base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+    color: var(--color-text);
+    background-color: var(--color-background);
+}
+
+h1,
+h2,
+h3 {
+    margin: 0 0 var(--space-md);
+    line-height: var(--line-height-heading);
+}
+
+a {
+    color: var(--color-primary);
+}
+
+
+/* 3. Layout
+   ========================================================================== */
+
+/* 3.1 Container: centres the page content */
+.container {
+    max-width: var(--container-width);
+    margin: var(--space-lg) auto;
+    padding: 0 var(--space-md);
+}
+
+.container--narrow {
+    max-width: var(--container-width-narrow);
+}
+
+/* 3.2 Site header */
+.site-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.site-header__brand {
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.site-header__logout {
+    display: inline;
+    margin: 0;
+}
+
+/* 3.3 Site footer */
+.site-footer {
+    padding: var(--space-xl) var(--space-md);
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+
+/* 4. Components
+   ========================================================================== */
+
+/* 4.1 Buttons */
+.btn {
+    display: inline-block;
+    padding: var(--space-sm) var(--space-md);
+    border: 0;
+    border-radius: var(--radius);
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn--primary {
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+}
+
+.btn--primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.btn--link {
+    padding: 0;
+    color: var(--color-primary);
+    background: none;
+    text-decoration: underline;
+}
+
+/* 4.2 Cards: a framed box, e.g. around a form */
+.card {
+    padding: var(--space-lg);
+    background-color: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+/* 4.3 Forms */
+.form__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+}
+
+.form__input {
+    padding: var(--space-sm);
+    font: inherit;
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+/* 4.4 Alerts: messages to the user */
+.alert {
+    margin: 0 0 var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius);
+}
+
+.alert--success {
+    color: var(--color-success-text);
+    background-color: var(--color-success-background);
+}
+
+.alert--error {
+    color: var(--color-error-text);
+    background-color: var(--color-error-background);
+}
+
+
+/* 5. Utilities
+   ========================================================================== */
+
+.text-muted {
+    color: var(--color-text-muted);
+}
