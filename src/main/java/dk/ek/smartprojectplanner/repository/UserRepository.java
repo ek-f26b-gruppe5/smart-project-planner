@@ -6,11 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
-/** Reads users from the app_user table. */
-/** Reads and saves users in the app_user table. */
 @Repository
 public class UserRepository {
 
