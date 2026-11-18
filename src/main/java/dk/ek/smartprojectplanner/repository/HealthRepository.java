@@ -1,4 +1,4 @@
-package dk.ek.template.repository;
+package dk.ek.smartprojectplanner.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

@@ -4,7 +4,7 @@ Spring Boot 4 · Java 21 · Thymeleaf · JdbcTemplate · MySQL · H2 (tests) · 
 
 ## Using this template
 1. **Use this template** → create the repo in the group's org
-2. Rename: package `dk.ek.template` (Shift+F6), `TemplateApplication` + its test, `artifactId`/`name` in `pom.xml`, `spring.application.name`, the database name `appdb` in `application-dev.properties`
+2. Rename: package `dk.ek.smartprojectplanner` (Shift+F6), `TemplateApplication` + its test, `artifactId`/`name` in `pom.xml`, `spring.application.name`, the database name `appdb` in `application-dev.properties`
 3. Replace this README with the project's own
 4. Then: Qodana token, Azure Web App + Deployment Center, env vars, ruleset
 

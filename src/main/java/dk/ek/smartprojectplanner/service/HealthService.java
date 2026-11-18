@@ -1,6 +1,6 @@
-package dk.ek.template.service;
+package dk.ek.smartprojectplanner.service;
 
-import dk.ek.template.repository.HealthRepository;
+import dk.ek.smartprojectplanner.repository.HealthRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
