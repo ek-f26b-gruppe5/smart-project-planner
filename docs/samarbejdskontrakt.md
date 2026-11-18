@@ -57,8 +57,7 @@ Hvor skal dokumentationen ”leve”?
 **Vores aftale**
 
 - Levende dokumenter på Teams
-- Diagrammer i /docs på GitHub (
-- 
+- Diagrammer i /docs på GitHub
 
 ### Branching-strategi
 
