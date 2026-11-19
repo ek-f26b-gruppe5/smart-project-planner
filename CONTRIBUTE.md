@@ -1,4 +1,4 @@
-# Contribe
+# Contribute
 
 ## Workflow
 1. Pick an issue from the project board and move it to **In Progress**.
