@@ -12,10 +12,47 @@
 - `feature/*` – one issue per branch, deleted after merge.
 
 ## Coding guidelines
-_To be agreed by the group._
+
+### Naming
+- Code, comments and commits in English; user-facing text in Danish
+- Java: `PascalCase` classes, `camelCase` methods/variables, `UPPER_SNAKE_CASE` constants
+- Database: `snake_case` tables/columns, singular table names
+- URLs and templates: lowercase-with-hyphens
+
+### Architecture
+- Controller → Service → Repository; SQL only in repositories, business rules in services
+- 
+### Database
+- JdbcTemplate with `?` placeholders; no string concatenation, no `SELECT *`
+- `@Transactional` on multi-table writes
+- Table changes in both `schema.sql` and `h2init.sql`
+
+### Errors, logging, security
+- Catch specific exceptions; custom exceptions from services; `@ControllerAdvice` for the rest
+- Validate input on the server; session holds only the user id; passwords hashed with BCrypt
+
+### Front-end
+- Styles only in `static/css`; shared fragments for header/footer; semantic HTML
+
+### Tests
+- Service logic → unit test, endpoint → `@WebMvcTest`, SQL → H2 integration test
+- `./mvnw clean test` passes before pushing
+
+### Git
+- Branches: `feature/<issue>-<short-name>`; imperative commit messages
+- One issue per PR; no commented-out code
+
 
 ## Pull requests
-_To be agreed by the group: how many reviewers, what a review must include._
+* Every PR must be reviewed by another collaborator before merging
+* Every PR must contain the standard template (Problem->Solution->How-to-test->Scope)
 
 ## Definition of Done
-_To be agreed by the group._
+1. All acceptance criteria are met.
+2. Tests are written for the new logic (service rules, SQL, endpoints as relevant).
+3. CI is green: build, tests and Qodana (no new serious warnings).
+4. The PR is reviewed and approved by someone who didn't write the code.
+5. Public classes and methods have JavaDoc.
+6. `schema.sql`/`h2init.sql` are updated.
+7. Merged into `develop`, the branch is deleted, the issue is Done.
+8. `Re-estimate` is filled in if the estimate was off.
