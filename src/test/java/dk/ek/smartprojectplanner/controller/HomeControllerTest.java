@@ -1,6 +1,6 @@
-package dk.ek.template.controller;
+package dk.ek.smartprojectplanner.controller;
 
-import dk.ek.template.service.HealthService;
+import dk.ek.smartprojectplanner.service.HealthService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -24,7 +24,7 @@ class HomeControllerTest {
     void index_showsDbStatus() throws Exception {
         when(healthService.databaseStatus()).thenReturn("OK");
 
-        mockMvc.perform(get("/"))
+        mockMvc.perform(get("/").sessionAttr("userId", 1).sessionAttr("userName", "Test"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
                 .andExpect(model().attribute("dbStatus", "OK"));

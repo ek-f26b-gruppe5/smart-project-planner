@@ -1,6 +1,6 @@
-package dk.ek.template.controller;
+package dk.ek.smartprojectplanner.controller;
 
-import dk.ek.template.service.HealthService;
+import dk.ek.smartprojectplanner.service.HealthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
