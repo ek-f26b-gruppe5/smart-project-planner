@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="941.0" viewBox="0 0 1600 941.0" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+<title>Iteration 1: MVP</title>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2b3a4a"/></marker><marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/></marker><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#c0392b" stroke-width="3"/></pattern></defs>
+<rect width="1600" height="941.0" fill="#ffffff"/>
+<text x="30.0" y="46.0" font-size="26" font-weight="bold" fill="#2b3a4a" text-anchor="start" >Iteration 1: MVP – projekt, delprojekter, opgaver og delopgaver</text>
+<text x="30.0" y="74.0" font-size="15" font-weight="normal" fill="#5f6b78" text-anchor="start" >Nyt i denne iteration: project, subproject, task (med parent_task_id) og task_assignment. Timer ligger på delopgaverne og lægges sammen opad.</text>
+<rect x="30.0" y="120.0" width="150.0" height="64.0" rx="6" fill="#fff4c2" stroke="#d9c26a" stroke-width="1.5" />
+<text x="105.0" y="150.0" font-size="17" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >Strukturen</text>
+<text x="105.0" y="170.0" font-size="12" font-weight="normal" fill="#5f6b78" text-anchor="middle" >eksempel</text>
+<line x1="210.0" y1="140.0" x2="1570.0" y2="140.0" stroke="#2b3a4a" stroke-width="1.5" stroke-dasharray="6 5"/>
+<line x1="210.0" y1="130.0" x2="210.0" y2="150.0" stroke="#2b3a4a" stroke-width="2"/>
+<line x1="1570.0" y1="130.0" x2="1570.0" y2="150.0" stroke="#2b3a4a" stroke-width="2"/>
+<text x="210.0" y="122.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >Startdato 01.03</text>
+<text x="1570.0" y="122.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="end" >Slutdato 28.05</text>
+<text x="890.0" y="122.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >tid (gælder projekt og delprojekter)</text>
+<rect x="210.0" y="160.0" width="1360.0" height="54.0" rx="8" fill="#1f6fb5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="890.0" y="194.0" font-size="17" font-weight="bold" fill="#ffffff" text-anchor="middle" >Projekt: Nyt parcelhus   ·   370 t i alt   ·   ≈ 5,7 t/dag</text>
+<rect x="212.0" y="220.0" width="623.7" height="54.0" rx="8" fill="#4a9be0" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="523.8" y="243.0" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle" >Delprojekt 1: Fundament   ·   01.03–09.04</text>
+<text x="523.8" y="263.0" font-size="14" font-weight="normal" fill="#ffffff" text-anchor="middle" >100 t   ·   ≈ 3,3 t/dag</text>
+<rect x="839.7" y="220.0" width="728.3" height="54.0" rx="8" fill="#4a9be0" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1203.8" y="243.0" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle" >Delprojekt 2: Råhus   ·   12.04–28.05</text>
+<text x="1203.8" y="263.0" font-size="14" font-weight="normal" fill="#ffffff" text-anchor="middle" >270 t   ·   ≈ 7,7 t/dag</text>
+<line x1="200.0" y1="282.0" x2="1580.0" y2="282.0" stroke="#5f6b78" stroke-width="1" stroke-dasharray="2 4"/>
+<text x="1580.0" y="276.0" font-size="1" font-weight="normal" fill="#2b3a4a" text-anchor="middle" ></text>
+<text x="210.0" y="300.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="start" font-style="italic">Opgaver og delopgaver har kun en deadline i iteration 1–2: her siger bredden intet om tid.</text>
+<rect x="212.0" y="312.0" width="309.8" height="54.0" rx="8" fill="#a9d2f5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="366.9" y="345.0" font-size="15" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >Opgave 1.1: Udgravning   ·   40 t</text>
+<rect x="212.0" y="372.0" width="152.9" height="62.0" rx="8" fill="#e6f2fc" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="288.5" y="394.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >1.1.1 Afsætning</text>
+<text x="288.5" y="414.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="middle" >8 t   ·   AL</text>
+<rect x="368.9" y="372.0" width="152.9" height="62.0" rx="8" fill="#e6f2fc" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="445.4" y="394.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >1.1.2 Gravearbejde</text>
+<text x="445.4" y="414.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="middle" >32 t   ·   AL</text>
+<rect x="525.8" y="312.0" width="309.8" height="54.0" rx="8" fill="#a9d2f5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="680.8" y="345.0" font-size="15" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >Opgave 1.2: Støbning   ·   60 t</text>
+<rect x="525.8" y="372.0" width="152.9" height="62.0" rx="8" fill="#e6f2fc" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="602.3" y="394.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >1.2.1 Forskalling</text>
+<text x="602.3" y="414.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="middle" >24 t   ·   CA</text>
+<rect x="682.8" y="372.0" width="152.9" height="62.0" rx="8" fill="#e6f2fc" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="759.2" y="394.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >1.2.2 Støb og hærdning</text>
+<text x="759.2" y="414.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="middle" >36 t   ·   AL + CA</text>
+<rect x="839.7" y="312.0" width="362.2" height="54.0" rx="8" fill="#a9d2f5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1020.8" y="345.0" font-size="15" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >Opgave 2.1: Murværk   ·   200 t</text>
+<rect x="839.7" y="372.0" width="179.1" height="62.0" rx="8" fill="#e6f2fc" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="929.2" y="394.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >2.1.1 Ydermure</text>
+<text x="929.2" y="414.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="middle" >120 t   ·   BO + CA</text>
+<rect x="1022.8" y="372.0" width="179.1" height="62.0" rx="8" fill="#e6f2fc" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1112.3" y="394.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >2.1.2 Indervægge</text>
+<text x="1112.3" y="414.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="middle" >80 t   ·   BO + CA</text>
+<rect x="1205.8" y="312.0" width="362.2" height="54.0" rx="8" fill="#a9d2f5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1386.9" y="345.0" font-size="15" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >Opgave 2.2: Installationer   ·   70 t</text>
+<rect x="1205.8" y="372.0" width="179.1" height="62.0" rx="8" fill="#e6f2fc" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1295.4" y="394.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >2.2.1 El-føringer</text>
+<text x="1295.4" y="414.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="middle" >40 t   ·   DI</text>
+<rect x="1388.9" y="372.0" width="179.1" height="62.0" rx="8" fill="#e6f2fc" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1478.5" y="394.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >2.2.2 VVS-føringer</text>
+<text x="1478.5" y="414.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="middle" >30 t   ·   ER</text>
+<rect x="30.0" y="484.0" width="150.0" height="64.0" rx="6" fill="#fff4c2" stroke="#d9c26a" stroke-width="1.5" />
+<text x="105.0" y="514.0" font-size="17" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >Hierarkiet</text>
+<text x="105.0" y="534.0" font-size="12" font-weight="normal" fill="#5f6b78" text-anchor="middle" >→ tabeller</text>
+<rect x="270.0" y="484.0" width="400.0" height="46.0" rx="8" fill="#1f6fb5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="470.0" y="513.0" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle" >Projekt</text>
+<line x1="676.0" y1="507.0" x2="740.0" y2="507.0" stroke="#b6c2cf" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="750.0" y="512.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" font-family="Consolas, Menlo, monospace">project</text>
+<rect x="310.0" y="538.0" width="320.0" height="46.0" rx="8" fill="#4a9be0" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="470.0" y="567.0" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle" >Delprojekt</text>
+<line x1="636.0" y1="561.0" x2="740.0" y2="561.0" stroke="#b6c2cf" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="750.0" y="566.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" font-family="Consolas, Menlo, monospace">subproject</text>
+<rect x="350.0" y="592.0" width="240.0" height="46.0" rx="8" fill="#a9d2f5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="470.0" y="621.0" font-size="16" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >Opgave</text>
+<line x1="596.0" y1="615.0" x2="740.0" y2="615.0" stroke="#b6c2cf" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="750.0" y="620.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" font-family="Consolas, Menlo, monospace">task  (parent_task_id = NULL)</text>
+<rect x="390.0" y="646.0" width="160.0" height="46.0" rx="8" fill="#e6f2fc" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="470.0" y="675.0" font-size="16" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >Delopgave</text>
+<line x1="556.0" y1="669.0" x2="740.0" y2="669.0" stroke="#b6c2cf" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="750.0" y="674.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" font-family="Consolas, Menlo, monospace">task  (parent_task_id = opgavens id)</text>
+<line x1="250.0" y1="682.0" x2="250.0" y2="494.0" stroke="#2b3a4a" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="238.0" y="588.0" font-size="14" fill="#2b3a4a" text-anchor="middle" transform="rotate(-90 238.0 588.0)">timer lægges sammen opad</text>
+<rect x="1350.0" y="563.0" width="220.0" height="212.0" rx="8" fill="#f6f7f9" stroke="#c9d1da" stroke-width="1.5" />
+<text x="1366.0" y="589.0" font-size="16" font-weight="bold" fill="#2b3a4a" text-anchor="start" >Medarbejdere</text>
+<text x="1366.0" y="609.0" font-size="12" font-weight="normal" fill="#5f6b78" text-anchor="start" font-family="Consolas, Menlo, monospace">app_user (EMPLOYEE)</text>
+<text x="1366.0" y="639.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="start" >AL Ali</text>
+<text x="1366.0" y="669.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="start" >BO Bo</text>
+<text x="1366.0" y="699.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="start" >CA Carla</text>
+<text x="1366.0" y="729.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="start" >DI Dina</text>
+<text x="1366.0" y="759.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="start" >ER Erik</text>
+<line x1="1346.0" y1="669.0" x2="1058.0" y2="669.0" stroke="#2b3a4a" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="1201.0" y="661.0" font-size="12" font-weight="normal" fill="#5f6b78" text-anchor="middle" >arbejder på</text>
+<text x="1201.0" y="687.0" font-size="11" font-weight="normal" fill="#5f6b78" text-anchor="middle" font-family="Consolas, Menlo, monospace">task_assignment</text>
+<rect x="210.0" y="799.0" width="1360.0" height="112.0" rx="8" fill="#f6f7f9" stroke="#c9d1da" stroke-width="1.5" />
+<text x="228.0" y="827.0" font-size="16" font-weight="bold" fill="#2b3a4a" text-anchor="start" >Regler (forslag)</text>
+<text x="228.0" y="853.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >• Delopgaver kun ét niveau ned (tjekkes i service)</text>
+<text x="228.0" y="877.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >• En opgave med delopgaver får sine timer fra dem</text>
+<text x="228.0" y="901.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >• t/dag = delprojektets timer ÷ arbejdsdage i perioden</text>
+<text x="908.0" y="853.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >• Datoer ligger inden for forælderens periode</text>
+<text x="908.0" y="877.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >• Sletning af projekt sletter alt under det</text>
+<text x="908.0" y="901.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >• Én delopgave kan have flere medarbejdere</text>
+</svg>

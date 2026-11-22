@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1038" viewBox="0 0 1600 1038" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+<title>Iteration 3: Kapacitet</title>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2b3a4a"/></marker><marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/></marker><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#c0392b" stroke-width="3"/></pattern></defs>
+<rect width="1600" height="1038" fill="#ffffff"/>
+<line x1="400.0" y1="156.0" x2="400.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="490.0" y1="156.0" x2="490.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="580.0" y1="156.0" x2="580.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="670.0" y1="156.0" x2="670.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="760.0" y1="156.0" x2="760.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="850.0" y1="156.0" x2="850.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="940.0" y1="156.0" x2="940.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="1030.0" y1="156.0" x2="1030.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="1120.0" y1="156.0" x2="1120.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="1210.0" y1="156.0" x2="1210.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="1300.0" y1="156.0" x2="1300.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="1390.0" y1="156.0" x2="1390.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="1480.0" y1="156.0" x2="1480.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="1570.0" y1="156.0" x2="1570.0" y2="666.0" stroke="#e3e8ee" stroke-width="1"/>
+<line x1="877.0" y1="152.0" x2="877.0" y2="670.0" stroke="#c0392b" stroke-width="2"/>
+<text x="30.0" y="46.0" font-size="26" font-weight="bold" fill="#2b3a4a" text-anchor="start" >Iteration 3: Kapacitet, faktiske timer og planlægning (stretch)</text>
+<text x="30.0" y="74.0" font-size="15" font-weight="normal" fill="#5f6b78" text-anchor="start" >Nyt: A) app_user.daily_hours + absence · B) time_entry · C) task.start_date + task_dependency. Hver del kan bygges eller droppes for sig.</text>
+<rect x="30.0" y="120.0" width="150.0" height="64.0" rx="6" fill="#fff4c2" stroke="#d9c26a" stroke-width="1.5" />
+<text x="105.0" y="150.0" font-size="17" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >Strukturen</text>
+<text x="105.0" y="170.0" font-size="12" font-weight="normal" fill="#5f6b78" text-anchor="middle" >nu på en tidslinje</text>
+<text x="445.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 9</text>
+<text x="535.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 10</text>
+<text x="625.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 11</text>
+<text x="715.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 12</text>
+<text x="805.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 13</text>
+<text x="895.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 14</text>
+<text x="985.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 15</text>
+<text x="1075.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 16</text>
+<text x="1165.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 17</text>
+<text x="1255.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 18</text>
+<text x="1345.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 19</text>
+<text x="1435.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 20</text>
+<text x="1525.0" y="146.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 21</text>
+<text x="210.0" y="190.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="start" >Projekt</text>
+<rect x="400.0" y="164.0" width="1170.0" height="40.0" rx="8" fill="#1f6fb5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="985.0" y="190.0" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle" >Nyt parcelhus · 370 t</text>
+<text x="210.0" y="238.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="start" >Delprojekter</text>
+<rect x="401.0" y="212.0" width="538.0" height="40.0" rx="8" fill="#4a9be0" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="670.0" y="238.0" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle" >1 Fundament · 100 t</text>
+<rect x="941.0" y="212.0" width="628.0" height="40.0" rx="8" fill="#4a9be0" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1255.0" y="238.0" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle" >2 Råhus · 270 t</text>
+<text x="210.0" y="286.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="start" >Opgaver</text>
+<rect x="401.0" y="260.0" width="178.0" height="40.0" rx="8" fill="#a9d2f5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="490.0" y="286.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >1.1 Udgravning</text>
+<rect x="581.0" y="260.0" width="358.0" height="40.0" rx="8" fill="#a9d2f5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="760.0" y="286.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >1.2 Støbning</text>
+<rect x="941.0" y="260.0" width="268.0" height="40.0" rx="8" fill="#a9d2f5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1075.0" y="286.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >2.1 Murværk</text>
+<rect x="1211.0" y="260.0" width="178.0" height="40.0" rx="8" fill="#a9d2f5" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1300.0" y="286.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >2.2 Installationer</text>
+<text x="210.0" y="334.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="start" >Delopgaver</text>
+<text x="388.0" y="368.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="end" >1.1.1 Afsætning</text>
+<rect x="401.0" y="346.0" width="34.0" height="34.0" rx="6" fill="#e0b07a" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="444.0" y="368.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="start" stroke="#ffffff" stroke-width="4" paint-order="stroke">8 t est. / 8 t faktisk (0 %)</text>
+<text x="418.0" y="368.0" font-size="15" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >✓</text>
+<text x="388.0" y="408.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="end" >1.1.2 Gravearbejde</text>
+<rect x="437.0" y="386.0" width="142.0" height="34.0" rx="6" fill="#e0b07a" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="588.0" y="408.0" font-size="13" font-weight="bold" fill="#c0392b" text-anchor="start" stroke="#ffffff" stroke-width="4" paint-order="stroke">32 t est. / 38 t faktisk (+19 %)</text>
+<text x="508.0" y="408.0" font-size="15" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >✓</text>
+<text x="388.0" y="448.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="end" >1.2.1 Forskalling</text>
+<rect x="581.0" y="426.0" width="124.0" height="34.0" rx="6" fill="#e0b07a" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="714.0" y="448.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="start" stroke="#ffffff" stroke-width="4" paint-order="stroke">24 t est. / 22 t faktisk (-8 %)</text>
+<text x="643.0" y="448.0" font-size="15" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >✓</text>
+<text x="388.0" y="488.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="end" >1.2.2 Støb og hærdning</text>
+<rect x="707.0" y="466.0" width="232.0" height="34.0" rx="6" fill="#e0b07a" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="948.0" y="488.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="start" stroke="#ffffff" stroke-width="4" paint-order="stroke">36 t · AL + CA</text>
+<text x="388.0" y="528.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="end" >2.1.1 Ydermure</text>
+<rect x="941.0" y="506.0" width="178.0" height="34.0" rx="6" fill="#e88b7d" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1128.0" y="528.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="start" stroke="#ffffff" stroke-width="4" paint-order="stroke">120 t · BO + CA</text>
+<text x="388.0" y="568.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="end" >2.1.2 Indervægge</text>
+<rect x="1121.0" y="546.0" width="88.0" height="34.0" rx="6" fill="#e88b7d" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1218.0" y="568.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="start" stroke="#ffffff" stroke-width="4" paint-order="stroke">80 t · BO + CA</text>
+<text x="388.0" y="608.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="end" >2.2.1 El-føringer</text>
+<rect x="1211.0" y="586.0" width="178.0" height="34.0" rx="6" fill="#f2d45c" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1398.0" y="608.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="start" stroke="#ffffff" stroke-width="4" paint-order="stroke">40 t · DI</text>
+<text x="388.0" y="648.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="end" >2.2.2 VVS-føringer</text>
+<rect x="1211.0" y="626.0" width="88.0" height="34.0" rx="6" fill="#7cc7c0" stroke="#2b3a4a" stroke-width="1.5" />
+<text x="1308.0" y="648.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="start" stroke="#ffffff" stroke-width="4" paint-order="stroke">30 t · ER</text>
+<path d="M574.0,420.0 L574.0,439.0 L590.0,439.0" stroke="#2b3a4a" stroke-width="1.3" fill="none" marker-end="url(#arrow)" stroke-dasharray="4 3"/>
+<path d="M700.0,460.0 L700.0,479.0 L716.0,479.0" stroke="#2b3a4a" stroke-width="1.3" fill="none" marker-end="url(#arrow)" stroke-dasharray="4 3"/>
+<path d="M934.0,500.0 L934.0,519.0 L950.0,519.0" stroke="#2b3a4a" stroke-width="1.3" fill="none" marker-end="url(#arrow)" stroke-dasharray="4 3"/>
+<path d="M1114.0,540.0 L1114.0,559.0 L1130.0,559.0" stroke="#2b3a4a" stroke-width="1.3" fill="none" marker-end="url(#arrow)" stroke-dasharray="4 3"/>
+<path d="M1204.0,580.0 L1204.0,599.0 L1220.0,599.0" stroke="#2b3a4a" stroke-width="1.3" fill="none" marker-end="url(#arrow)" stroke-dasharray="4 3"/>
+<path d="M1204.0,580.0 L1204.0,639.0 L1220.0,639.0" stroke="#2b3a4a" stroke-width="1.3" fill="none" marker-end="url(#arrow)" stroke-dasharray="4 3"/>
+<text x="877.0" y="148.0" font-size="1" font-weight="normal" fill="#2b3a4a" text-anchor="middle" ></text>
+<text x="883.0" y="668.0" font-size="13" font-weight="bold" fill="#c0392b" text-anchor="start" >i dag</text>
+<rect x="30.0" y="712.0" width="150.0" height="64.0" rx="6" fill="#fff4c2" stroke="#d9c26a" stroke-width="1.5" />
+<text x="105.0" y="742.0" font-size="17" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >Kapacitet</text>
+<text x="105.0" y="762.0" font-size="12" font-weight="normal" fill="#5f6b78" text-anchor="middle" >kompetence: Murer</text>
+<text x="388.0" y="730.0" font-size="14" font-weight="bold" fill="#2b3a4a" text-anchor="end" >Murer-timer pr. uge</text>
+<text x="388.0" y="750.0" font-size="13" font-weight="normal" fill="#5f6b78" text-anchor="end" >BO + CA · 7,4 t/dag</text>
+<line x1="904.0" y1="882.0" x2="1336.0" y2="882.0" stroke="#2b3a4a" stroke-width="1.2"/>
+<rect x="962.5" y="792.0" width="45.0" height="90.0" rx="2" fill="#e88b7d" stroke="#2b3a4a" stroke-width="1" />
+<text x="985.0" y="784.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >60 t</text>
+<line x1="946.0" y1="771.0" x2="1024.0" y2="771.0" stroke="#1f6fb5" stroke-width="2.5" stroke-dasharray="6 4"/>
+<text x="985.0" y="900.0" font-size="12" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 15</text>
+<rect x="1052.5" y="792.0" width="45.0" height="90.0" rx="2" fill="#e88b7d" stroke="#2b3a4a" stroke-width="1" />
+<text x="1075.0" y="784.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >60 t</text>
+<line x1="1036.0" y1="771.0" x2="1114.0" y2="771.0" stroke="#1f6fb5" stroke-width="2.5" stroke-dasharray="6 4"/>
+<text x="1075.0" y="900.0" font-size="12" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 16</text>
+<rect x="1142.5" y="782.1" width="45.0" height="99.9" rx="2" fill="#e88b7d" stroke="#2b3a4a" stroke-width="1" />
+<rect x="1142.5" y="762.0" width="45.0" height="20.1" rx="2" fill="url(#hatch)" stroke="#c0392b" stroke-width="1.5" />
+<text x="1165.0" y="754.0" font-size="13" font-weight="bold" fill="#2b3a4a" text-anchor="middle" >80 t</text>
+<line x1="1126.0" y1="782.1" x2="1204.0" y2="782.1" stroke="#1f6fb5" stroke-width="2.5" stroke-dasharray="6 4"/>
+<text x="1165.0" y="900.0" font-size="12" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 17</text>
+<line x1="1216.0" y1="771.0" x2="1294.0" y2="771.0" stroke="#1f6fb5" stroke-width="2.5" stroke-dasharray="6 4"/>
+<text x="1255.0" y="900.0" font-size="12" font-weight="normal" fill="#5f6b78" text-anchor="middle" >uge 18</text>
+<rect x="400.0" y="762.0" width="430.0" height="136.0" rx="8" fill="#fdecea" stroke="#c9d1da" stroke-width="1.5" />
+<text x="418.0" y="790.0" font-size="16" font-weight="bold" fill="#2b3a4a" text-anchor="start" >Flaskehals i uge 17</text>
+<text x="418.0" y="816.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >Behov: Indervægge 80 t på én uge</text>
+<text x="418.0" y="840.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >Til rådighed: 2 × 5 × 7,4 = 74 t</text>
+<text x="418.0" y="864.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >− CA fravær fredag (absence) = 66,6 t</text>
+<text x="418.0" y="888.0" font-size="14" font-weight="normal" fill="#2b3a4a" text-anchor="start" >Mangler 13,4 t → advarsel til projektleder</text>
+<rect x="400.0" y="913.0" width="26.0" height="16.0" rx="2" fill="#e88b7d" stroke="#2b3a4a" stroke-width="1" />
+<text x="434.0" y="926.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="start" >behov (estimerede timer fordelt på arbejdsdage)</text>
+<line x1="814.0" y1="921.0" x2="842.0" y2="921.0" stroke="#1f6fb5" stroke-width="2.5" stroke-dasharray="6 4"/>
+<text x="850.0" y="926.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="start" >til rådighed (daily_hours × arbejdsdage − fravær)</text>
+<rect x="1237.0" y="913.0" width="26.0" height="16.0" rx="2" fill="url(#hatch)" stroke="#c0392b" stroke-width="1.5" />
+<text x="1271.0" y="926.0" font-size="13" font-weight="normal" fill="#2b3a4a" text-anchor="start" >mangel</text>
+<text x="210.0" y="960.0" font-size="14" font-weight="normal" fill="#5f6b78" text-anchor="start" >A  Kapacitet: daily_hours + absence → flaskehalse pr. kompetence (diagrammet ovenfor)</text>
+<text x="210.0" y="982.0" font-size="14" font-weight="normal" fill="#5f6b78" text-anchor="start" >B  Faktiske timer: time_entry → estimat vs. faktisk på færdige delopgaver (✓)</text>
+<text x="210.0" y="1004.0" font-size="14" font-weight="normal" fill="#5f6b78" text-anchor="start" >C  Planlægning: start_date + task_dependency → tidslinjen og afhængighederne (stiplede pile)</text>
+</svg>
