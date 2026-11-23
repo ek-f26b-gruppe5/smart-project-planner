@@ -10,7 +10,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Integration tests for UserRepository against H2; h2init.sql resets the data before each test. */
 @SpringBootTest

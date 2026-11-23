@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * under {@code "userId"}.
  * Handles the web requests for registering a new user: shows the form and receives
  * it when it is submitted. The rules (validation, hashing and saving)
- * live in UserService, so this class only connects the web to to the service
+ * live in UserService, so this class only connects the web to the service
  */
 @Controller
 public class UserController {

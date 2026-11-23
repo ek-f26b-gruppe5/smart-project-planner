@@ -44,7 +44,7 @@ class LoginInterceptorTest {
     /**
      * Potential ideas for additional tests:
      * static files: GET /css/style.css is not redirected when logged out (the /css/** exclusion)
-     * unknown paths: a page that doesn't exist also redirects to /login when logged out
+     * unknown paths: a page that doesn't exist also redirects to /login when logged-out
      * session: a session without "userId" is treated as logged out
      */
 }
