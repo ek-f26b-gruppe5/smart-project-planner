@@ -21,10 +21,13 @@
     </nav>
 </header>
 
+<!-- Flash message (success) -->
 <p th:fragment="flash(message)" class="alert alert--success" role="status" th:text="${message}">Besked</p>
+<!-- Flash message (error) -->
+<p th:fragment="error(message)" class="alert alert--error" role="alert" th:text="${message}">Fejl</p>
 
 <footer th:fragment="footer" class="site-footer">
-    <small>Smart Project Planner · Gruppe 5 · EK</small>
+    <small>Smart Project Planner · Gruppe 5</small>
 </footer>
 
 </body>
