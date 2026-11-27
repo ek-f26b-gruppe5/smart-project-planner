@@ -1,7 +1,9 @@
 package dk.ek.smartprojectplanner.service;
 
+import dk.ek.smartprojectplanner.exception.ForbiddenException;
 import dk.ek.smartprojectplanner.exception.InvalidInputException;
 import dk.ek.smartprojectplanner.exception.InvalidLoginException;
+import dk.ek.smartprojectplanner.model.Role;
 import dk.ek.smartprojectplanner.model.User;
 import dk.ek.smartprojectplanner.repository.UserRepository;
 import org.slf4j.Logger;
@@ -12,8 +14,9 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * Business rules for users: validates input, checks that the email is free
- * and hashes the password before anything is saved through UserRepository
+ * Business rules for users: only managers may create users, new users are always
+ * employees, and the input is validated, the e-mail checked and the password hashed
+ * before anything is saved through UserRepository
  *
  */
 @Service
@@ -33,13 +36,14 @@ public class UserService {
 
     // The error messages live in constants so they are written once and the tests
     // can reuse them. This is what is shown to the user
-    static final String NAME_REQUIRED = "Skriv dit navn";
+    static final String NAME_REQUIRED = "Skriv medarbejderens navn.";
     static final String NAME_TOO_LONG = "Navnet må højst være " + MAX_NAME_LENGTH + " tegn.";
-    static final String EMAIL_REQUIRED = "Skriv din e-mail.";
+    static final String EMAIL_REQUIRED = "Skriv medarbejderens e-mail.";
     static final String EMAIL_INVALID = "E-mailen er ikke gyldig.";
     static final String EMAIL_TOO_LONG = "E-mailen må højst være " + MAX_EMAIL_LENGTH + " tegn.";
     static final String EMAIL_TAKEN = "Der findes allerede en bruger med den e-mail.";
     static final String PASSWORD_REQUIRED = "Skriv en adgangskode.";
+    static final String ACCESS_DENIED = "Du har ikke adgang til denne side.";
     static final String PASSWORD_TOO_SHORT = "Adgangskoden skal være mindst " + MIN_PASSWORD_LENGTH + " tegn.";
 
 
@@ -77,18 +81,38 @@ public class UserService {
 
 
     /**
-     * Registers a new user
-     * <p>
+     * Checks that the logged-in user is a manager. Used before showing and before
+     * saving anything only managers may do, so the rule lives in one place.
      *
-     *     Name and email are trimmed and the email is made lower case before it is checked
-     *     and saved. The password is not trimmed. It is hashed with BCrypt, so the plain
-     *     password is never stored.
-     * </p>
-     * @param name      the name the user typed
-     * @param email     the email the user typed
-     * @param password  the plain password the user typed
+     * @param role the logged-in user's role; may be null
+     * @throws ForbiddenException if the role isn't MANAGER
      */
-    public void register(String name, String email, String password) {
+    public void requireManager(Role role) {
+        if (role != Role.MANAGER) {
+            log.warn("Manager-only action refused for role {}", role);
+            throw new ForbiddenException(ACCESS_DENIED);
+        }
+    }
+
+    /**
+     * Creates a new employee. Only a manager may do this; the new user always gets the role EMPLOYEE.
+     * <p>
+     *     The role is checked first, before the input, so a user who isn't allowed gets no
+     *     validation feedback. Name and email are trimmed and the email is made lower case
+     *     before it is checked and saved. The password is not trimmed. It is hashed with
+     *     BCrypt, so the plain password is never stored.
+     * </p>
+     * @param creatorRole the role of the logged-in user who creates the employee; may be null
+     * @param name        the name the manager typed
+     * @param email       the email the manager typed
+     * @param password    the initial password the manager typed, in plain text
+     * @throws ForbiddenException    if the creator isn't a manager
+     * @throws InvalidInputException if a rule is broken or the e-mail is taken
+     */
+    public void createEmployee(Role creatorRole, String name, String email, String password) {
+
+        // 0. Only managers may create users. Checked first, so nothing else happens if not
+        requireManager(creatorRole);
 
         // 1. Clean the input:
         // Makes sure that the String is always a real text,
@@ -137,13 +161,13 @@ public class UserService {
 
         // 5. Save the user.
 
-        // If two people register at the same time with the same email:
+        // If two managers create a user with the same email at the same time:
         // both will pass step 3, because nothing is saved yet.
         // The UNIQUE rule in the database then rejects the second INSERT with a
         // DataIntegrityViolationException - we catch it and show the error message
         try {
-            userRepository.save(cleanName, cleanEmail, passwordHash);
-            log.info("New user registered");
+            userRepository.save(cleanName, cleanEmail, passwordHash, Role.EMPLOYEE);
+            log.info("New employee created");
         } catch (DataIntegrityViolationException ex) {
             throw new InvalidInputException(EMAIL_TAKEN);
         }

@@ -1,5 +1,6 @@
 package dk.ek.smartprojectplanner.controller;
 
+import dk.ek.smartprojectplanner.exception.ForbiddenException;
 import dk.ek.smartprojectplanner.exception.InvalidInputException;
 import dk.ek.smartprojectplanner.exception.InvalidLoginException;
 import dk.ek.smartprojectplanner.model.Role;
@@ -12,6 +13,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -49,7 +52,8 @@ class UserControllerTest {
                         .param("password", "password123"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"))
-                .andExpect(request().sessionAttribute("userId", 1));
+                .andExpect(request().sessionAttribute("userId", 1))
+                .andExpect(request().sessionAttribute("userRole", Role.MANAGER));
     }
 
     @Test
@@ -67,31 +71,123 @@ class UserControllerTest {
                 .andExpect(model().attribute("error", "Forkert e-mail eller adgangskode"));
     }
 
-    // ---------- register ----------
+    // ---------- create employee: who may see and use the form ----------
 
+    /**
+     * Not logged in → redirected to /login; the form is not a public sign-up page.
+     */
     @Test
-    void register_invalidInput_showsFormAgainWithErrorAndTypedValues() throws Exception {
-        // Arrange
-        doThrow(new InvalidInputException("Adgangskoden skal være mindst 8 tegn."))
-                .when(userService).register("Anna", "anna@mail.dk", "kort");
+    void showEmployeeForm_notLoggedIn_redirectsToLogin() throws Exception {
+        // Arrange: no session
 
         // Act + Assert
-        mockMvc.perform(post("/register")
+        mockMvc.perform(get(UserController.NEW_EMPLOYEE_PATH))
+                .andExpect(redirectedUrl("/login"));
+        verifyNoInteractions(userService);
+    }
+
+    /**
+     * Logged in as an employee → the 403 page instead of the form.
+     */
+    @Test
+    void showEmployeeForm_employee_shows403Page() throws Exception {
+        // Arrange
+        doThrow(new ForbiddenException("Du har ikke adgang til denne side."))
+                .when(userService).requireManager(Role.EMPLOYEE);
+
+        // Act + Assert
+        mockMvc.perform(get(UserController.NEW_EMPLOYEE_PATH)
+                        .sessionAttr("userId", 2)
+                        .sessionAttr("userRole", Role.EMPLOYEE))
+                .andExpect(status().isForbidden())
+                .andExpect(view().name("error/403"));
+    }
+
+    /**
+     * Logged in as a manager → the empty employee form.
+     */
+    @Test
+    void showEmployeeForm_manager_showsForm() throws Exception {
+        // Arrange: requireManager does nothing for a manager (the mock's default)
+
+        // Act + Assert
+        mockMvc.perform(get(UserController.NEW_EMPLOYEE_PATH)
+                        .sessionAttr("userId", 1)
+                        .sessionAttr("userRole", Role.MANAGER))
+                .andExpect(status().isOk())
+                .andExpect(view().name(UserController.EMPLOYEE_FORM_VIEW));
+        verify(userService).requireManager(Role.MANAGER);
+    }
+
+    // ---------- create employee: submitting the form ----------
+
+    /**
+     * A manager submits valid input → the service gets the session's role and the fields, then redirect to an empty form with a confirmation.
+     */
+    @Test
+    void createEmployee_validInput_redirectsToEmptyFormWithFlash() throws Exception {
+        // Arrange: createEmployee does nothing (the mock's default), so the input counts as valid
+
+        // Act + Assert
+        mockMvc.perform(post(UserController.CREATE_EMPLOYEE_PATH)
+                        .sessionAttr("userId", 1)
+                        .sessionAttr("userRole", Role.MANAGER)
+                        .param("name", "Anna")
+                        .param("email", "anna@mail.dk")
+                        .param("password", "hunter22"))
+                .andExpect(redirectedUrl(UserController.NEW_EMPLOYEE_PATH))
+                .andExpect(flash().attribute(UserController.FLASH, UserController.EMPLOYEE_CREATED));
+        verify(userService).createEmployee(Role.MANAGER, "Anna", "anna@mail.dk", "hunter22");
+    }
+
+    /**
+     * Invalid input → the form is shown again with the error and the typed name and e-mail.
+     */
+    @Test
+    void createEmployee_invalidInput_showsFormAgainWithErrorAndTypedValues() throws Exception {
+        // Arrange
+        doThrow(new InvalidInputException("Adgangskoden skal være mindst 8 tegn."))
+                .when(userService).createEmployee(Role.MANAGER, "Anna", "anna@mail.dk", "kort");
+
+        // Act + Assert
+        mockMvc.perform(post(UserController.CREATE_EMPLOYEE_PATH)
+                        .sessionAttr("userId", 1)
+                        .sessionAttr("userRole", Role.MANAGER)
                         .param("name", "Anna")
                         .param("email", "anna@mail.dk")
                         .param("password", "kort"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("register"))
+                .andExpect(view().name(UserController.EMPLOYEE_FORM_VIEW))
                 .andExpect(model().attribute("error", "Adgangskoden skal være mindst 8 tegn."))
+                .andExpect(model().attribute("name", "Anna"))
                 .andExpect(model().attribute("email", "anna@mail.dk"));
     }
 
     /**
+     * An employee submits the form anyway (e.g. by hand) → the 403 page.
+     */
+    @Test
+    void createEmployee_employee_shows403Page() throws Exception {
+        // Arrange
+        doThrow(new ForbiddenException("Du har ikke adgang til denne side."))
+                .when(userService).createEmployee(Role.EMPLOYEE, "Anna", "anna@mail.dk", "hunter22");
+
+        // Act + Assert
+        mockMvc.perform(post(UserController.CREATE_EMPLOYEE_PATH)
+                        .sessionAttr("userId", 2)
+                        .sessionAttr("userRole", Role.EMPLOYEE)
+                        .param("name", "Anna")
+                        .param("email", "anna@mail.dk")
+                        .param("password", "hunter22"))
+                .andExpect(status().isForbidden())
+                .andExpect(view().name("error/403"));
+    }
+
+    /*
      * Potential ideas for additional tests:
-     * register success: redirects to /login with a flash message (flash().attributeExists("flash"))
-     * pages: GET /register shows the register view
      * logout: POST /logout invalidates the session and redirects to /login
      * session: after a correct login, "userName" is stored in the session too
      * rendering: the error message is actually shown in the HTML (content().string(containsString(...)))
+     * header: the "Opret medarbejder" link is shown to managers and not to employees
      */
 }
