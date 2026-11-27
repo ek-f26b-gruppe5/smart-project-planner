@@ -26,6 +26,11 @@ class GlobalExceptionHandlerTest {
             throw new NotFoundException("Projektet findes ikke");
         }
 
+        @GetMapping("/test/forbidden")
+        public String forbidden() {
+            throw new ForbiddenException("Du har ikke adgang til denne side.");
+        }
+
         @GetMapping("/test/db-error")
         public String dbError() {
             throw new DataAccessResourceFailureException("Connection refused");
@@ -41,6 +46,19 @@ class GlobalExceptionHandlerTest {
         mockMvc.perform(get("/test/not-found").sessionAttr("userId", 1))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("error/404"));
+    }
+
+    /**
+     * ForbiddenException → status 403 and the error/403 page.
+     */
+    @Test
+    void forbiddenException_shows403Page() throws Exception {
+        // Arrange: logged in, since every path is behind the login check
+
+        // Act + Assert
+        mockMvc.perform(get("/test/forbidden").sessionAttr("userId", 1))
+                .andExpect(status().isForbidden())
+                .andExpect(view().name("error/403"));
     }
 
     @Test
