@@ -21,15 +21,30 @@ class HomeControllerTest {
     HealthService healthService;
 
     /**
-     * Logged in, the front page sends the user to their projects.
+     * The front page gets the database status from the service.
      */
     @Test
-    void index_loggedIn_redirectsToProjects() throws Exception {
-        // Arrange: logged in, nothing to stub
+    void index_showsDbStatus() throws Exception {
+        // Arrange
+        when(healthService.databaseStatus()).thenReturn("OK");
 
         // Act + Assert
-        mockMvc.perform(get("/").sessionAttr("userId", 1))
-                .andExpect(redirectedUrl(ProjectController.LIST_PATH));
+        mockMvc.perform(get("/").sessionAttr("userId", 1).sessionAttr("userName", "Test"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("OK"));
+    }
+
+    /**
+     * The database is down → the health check answers "ERROR", still with status 200.
+     */
+    @Test
+    void health_databaseDown_returnsError() throws Exception {
+        // Arrange
+        when(healthService.databaseStatus()).thenReturn("ERROR");
+
+        // Act + Assert
+        mockMvc.perform(get(HomeController.HEALTH_PATH))
+                .andExpect(content().string("ERROR"));
     }
 
     // ---------- health check ----------
@@ -60,5 +75,4 @@ class HomeControllerTest {
         mockMvc.perform(get(HomeController.HEALTH_PATH))
                 .andExpect(content().string("ERROR"));
     }
-
 }
