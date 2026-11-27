@@ -1,0 +1,33 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Java dependencies in pom.xml (incl. the Spring Boot parent)
+  - package-ecosystem: "maven"
+    directory: "/"
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      maven-minor-and-patch:
+        update-types: ["minor", "patch"]
+    ignore:
+      # No major upgrades during the exam project (e.g. Spring Boot 5)
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # Actions used in .github/workflows/*.yml (checkout, setup-java, qodana, azure/login, …)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      github-actions:
+        patterns: ["*"]

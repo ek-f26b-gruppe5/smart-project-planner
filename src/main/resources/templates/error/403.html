@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Ingen adgang')}"><title>Ingen adgang</title></head>
+<body>
+<!-- Same centred card as the login page: error pages are seen both logged in and logged out -->
+<main class="container container--narrow login">
+    <p class="login__brand">Smart Project Planner</p>
+    <div class="card">
+        <h1 class="login__title">Ingen adgang</h1>
+        <p>Du har ikke adgang til denne side. Kontakt en projektleder, hvis du mener, det er en fejl.</p>
+        <p><a th:href="@{/}">Tilbage til forsiden</a></p>
+    </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

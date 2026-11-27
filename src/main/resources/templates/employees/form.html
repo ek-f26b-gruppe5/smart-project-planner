@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Opret medarbejder')}"><title>Opret medarbejder</title></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/page :: sidebar('employees')}"></aside>
+    <div class="app__main">
+        <header th:replace="~{fragments/page :: topbar(~{::crumbs})}">
+            <nav th:fragment="crumbs" aria-label="Brødkrummer">
+                <ol class="crumbs">
+                    <li><span class="crumbs__current" aria-current="page">Opret medarbejder</span></li>
+                </ol>
+            </nav>
+        </header>
+        <main class="app__content page">
+            <div class="page__head">
+                <h1 class="page__title">Opret medarbejder</h1>
+            </div>
+
+            <th:block th:if="${flash}"><p th:replace="~{fragments/layout :: flash(${flash})}"></p></th:block>
+
+            <form class="card form" method="post" th:action="@{/employees}">
+                <th:block th:if="${error}"><p th:replace="~{fragments/layout :: error(${error})}"></p></th:block>
+
+                <div class="form__field">
+                    <label class="form__label" for="name">Medarbejderens navn <span class="form__required">*</span></label>
+                    <input class="form__input" id="name" type="text" name="name"
+                           autocomplete="off" required maxlength="100" th:value="${name}">
+                </div>
+
+                <div class="form__field">
+                    <label class="form__label" for="email">Medarbejderens e-mail <span class="form__required">*</span></label>
+                    <input class="form__input" id="email" type="email" name="email"
+                           autocomplete="off" required maxlength="255" th:value="${email}">
+                </div>
+
+                <div class="form__field">
+                    <label class="form__label" for="password">Startadgangskode <span class="form__required">*</span></label>
+                    <input class="form__input" id="password" type="password" name="password"
+                           autocomplete="new-password" required minlength="8" aria-describedby="password-hint">
+                    <p class="form__hint" id="password-hint">Mindst 8 tegn. Giv den til medarbejderen personligt.</p>
+                </div>
+
+                <div class="form__actions">
+                    <a class="btn" th:href="@{/projects}">Annullér</a>
+                    <button class="btn btn--primary" type="submit">Opret medarbejder</button>
+                </div>
+            </form>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+</body>
+</html>

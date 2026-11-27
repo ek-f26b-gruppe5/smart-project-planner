@@ -2,20 +2,49 @@ package dk.ek.smartprojectplanner.controller;
 
 import dk.ek.smartprojectplanner.service.HealthService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * The front page and the health check.
+ * The front page has no content of its own yet: it sends the user to their projects
+ * until the dashboard exists. The health check is public, so monitoring can use it.
+ */
 @Controller
 public class HomeController {
+
+    static final String HEALTH_PATH = "/health";
+
     private final HealthService healthService;
 
+    /**
+     * Creates the controller with the service it needs.
+     *
+     * @param healthService the service that checks the database
+     */
     public HomeController(HealthService healthService) {
         this.healthService = healthService;
     }
 
+    /**
+     * The front page. Sends the user to their projects until a dashboard exists;
+     * then this method shows the dashboard instead, and nothing else has to change.
+     *
+     * @return a redirect to the project list
+     */
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("dbStatus", healthService.databaseStatus());
-        return "index";
+    public String index() {
+        return "redirect:" + ProjectController.LIST_PATH;
+    }
+
+    /**
+     * Health check for monitoring (e.g. curl in the standup workflow). Public, no login needed.
+     *
+     * @return "OK" if the database answers, otherwise "ERROR", as plain text
+     */
+    @GetMapping(HEALTH_PATH)
+    @ResponseBody
+    public String health() {
+        return healthService.databaseStatus();
     }
 }

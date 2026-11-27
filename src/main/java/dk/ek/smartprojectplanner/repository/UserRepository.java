@@ -12,7 +12,7 @@ import java.util.Optional;
 public class UserRepository {
 
     private static final String INSERT_USER =
-            "INSERT INTO app_user (name, email, password_hash) VALUES (?, ?, ?)";
+            "INSERT INTO app_user (name, email, password_hash, role) VALUES (?, ?, ?, ?)";
     private static final String SELECT_BY_EMAIL =
             "SELECT id, name, email, password_hash, role FROM app_user WHERE email = ?";
 
@@ -42,8 +42,15 @@ public class UserRepository {
                 .findFirst();
     }
 
-    /** Saves a new user. The password must already be hashed. */
-    public void save(String name, String email, String passwordHash) {
-        jdbcTemplate.update(INSERT_USER, name, email, passwordHash);
+    /**
+     * Saves a new user. The password must already be hashed.
+     *
+     * @param name         the user's name
+     * @param email        the user's e-mail, already trimmed and lower-cased
+     * @param passwordHash the BCrypt hash of the password
+     * @param role         the user's role; the service decides it, the repository just stores it
+     */
+    public void save(String name, String email, String passwordHash, Role role) {
+        jdbcTemplate.update(INSERT_USER, name, email, passwordHash, role.name());
     }
 }

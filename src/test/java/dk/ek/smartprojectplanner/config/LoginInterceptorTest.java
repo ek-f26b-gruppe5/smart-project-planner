@@ -8,11 +8,10 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/** Tests the login rule through a protected page (/): logged out → login page, logged in → the page. */
+/** Tests the login rule through a protected page (/): logged out → login page, logged in → let through to the controller. */
 @WebMvcTest(HomeController.class)
 class LoginInterceptorTest {
 
@@ -31,20 +30,19 @@ class LoginInterceptorTest {
     }
 
     @Test
-    void protectedPage_loggedIn_isShown() throws Exception {
-        // Arrange
-        when(healthService.databaseStatus()).thenReturn("OK");
+    void protectedPage_loggedIn_reachesController() throws Exception {
+        // Arrange: logged in. "/" redirects to the projects, so landing there (not /login)
+        // proves the interceptor let the request through to HomeController
 
         // Act + Assert
         mockMvc.perform(get("/").sessionAttr("userId", 1).sessionAttr("userName", "Test"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+                .andExpect(redirectedUrl("/projects"));
     }
 
     /**
      * Potential ideas for additional tests:
      * static files: GET /css/style.css is not redirected when logged out (the /css/** exclusion)
-     * unknown paths: a page that doesn't exist also redirects to /login when logged out
+     * unknown paths: a page that doesn't exist also redirects to /login when logged-out
      * session: a session without "userId" is treated as logged out
      */
 }

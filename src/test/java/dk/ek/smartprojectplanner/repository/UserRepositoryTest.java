@@ -10,7 +10,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Integration tests for UserRepository against H2; h2init.sql resets the data before each test. */
 @SpringBootTest
@@ -45,16 +46,22 @@ class UserRepositoryTest {
 
     // ---------- save ----------
 
+    /**
+     * Saves a user with role MANAGER and finds them again with that role.
+     */
     @Test
-    void save_newUser_canBeFoundWithDefaultRole() {
+    void save_withRole_storesThatRole() {
+        // Arrange: MANAGER on purpose, because the database default is EMPLOYEE.
+        // If save ignored the role, the user would come back as EMPLOYEE and the test would fail
+
         // Act
-        userRepository.save("Ny Bruger", "ny@test.dk", "hash");
+        userRepository.save("Ny Bruger", "ny@test.dk", "hash", Role.MANAGER);
 
         // Assert
         Optional<User> saved = userRepository.findByEmail("ny@test.dk");
         assertTrue(saved.isPresent());
         assertEquals("Ny Bruger", saved.get().getName());
-        assertEquals(Role.MANAGER, saved.get().getRole());   // the database default
+        assertEquals(Role.MANAGER, saved.get().getRole());
     }
 
     /**

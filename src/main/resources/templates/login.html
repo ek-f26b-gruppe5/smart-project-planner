@@ -2,24 +2,31 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Log ind')}"><title>Log ind</title></head>
 <body>
-<header th:replace="~{fragments/layout :: header}"></header>
-<main class="container container--narrow">
-    <h1>Log ind</h1>
+<main class="container container--narrow login">
+    <p class="login__brand">Smart Project Planner</p>
 
     <th:block th:if="${flash}"><p th:replace="~{fragments/layout :: flash(${flash})}"></p></th:block>
-    <p class="alert alert--error" role="alert" th:if="${error}" th:text="${error}"></p>
 
-    <form class="card" method="post" th:action="@{/login}">
-        <label class="form__field">E-mail
-            <input class="form__input" type="email" name="email" autocomplete="email" required>
-        </label>
-        <label class="form__field">Adgangskode
-            <input class="form__input" type="password" name="password" autocomplete="current-password" required>
-        </label>
+    <form class="card form" method="post" th:action="@{/login}">
+        <h1 class="login__title">Log ind</h1>
+
+        <th:block th:if="${error}"><p th:replace="~{fragments/layout :: error(${error})}"></p></th:block>
+
+        <div class="form__field">
+            <label class="form__label" for="email">E-mail</label>
+            <input class="form__input" id="email" type="email" name="email"
+                   autocomplete="email" required autofocus>
+        </div>
+
+        <div class="form__field">
+            <label class="form__label" for="password">Adgangskode</label>
+            <input class="form__input" id="password" type="password" name="password"
+                   autocomplete="current-password" required>
+        </div>
+
         <button class="btn btn--primary" type="submit">Log ind</button>
     </form>
 
-    <p>Ny bruger? <a th:href="@{/register}">Opret en konto</a></p>
 </main>
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>

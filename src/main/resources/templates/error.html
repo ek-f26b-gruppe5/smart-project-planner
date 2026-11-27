@@ -2,11 +2,14 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Der opstod en fejl')}"><title>Siden findes ikke</title></head>
 <body>
-<header th:replace="~{fragments/layout :: header}"></header>
-<main class="container">
-    <h1>Der opstod en fejl</h1>
-    <p>Prøv igen om lidt. Fejlen er registreret.</p>
-    <p><a th:href="@{/}">Tilbage til forsiden</a></p>
+<!-- Same centred card as the login page: error pages are seen both logged in and logged out -->
+<main class="container container--narrow login">
+    <p class="login__brand">Smart Project Planner</p>
+    <div class="card">
+        <h1 class="login__title">Der opstod en fejl</h1>
+        <p>Prøv igen om lidt. Fejlen er registreret.</p>
+        <p><a th:href="@{/}">Tilbage til forsiden</a></p>
+    </div>
 </main>
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>

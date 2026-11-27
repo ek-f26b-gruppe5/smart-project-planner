@@ -25,6 +25,14 @@ public class GlobalExceptionHandler {
         return "error/404";
     }
 
+    /** The user is logged in but isn't allowed to do this, e.g. an employee creating users. */
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public String handleForbidden(ForbiddenException ex) {
+        log.warn("Forbidden: {}", ex.getMessage());
+        return "error/403";
+    }
+
     /** The database failed: log everything, show a calm page. */
     @ExceptionHandler(DataAccessException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
