@@ -12,6 +12,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -115,7 +116,11 @@ class UserControllerTest {
                         .sessionAttr("userId", 1)
                         .sessionAttr("userRole", Role.MANAGER))
                 .andExpect(status().isOk())
-                .andExpect(view().name(UserController.EMPLOYEE_FORM_VIEW));
+                .andExpect(view().name(UserController.EMPLOYEE_FORM_VIEW))
+                // the rendered form must post to the controller's path (US5: IntelliJ once rewrote it to /templates/employees)
+                .andExpect(content().string(containsString("action=\"" + UserController.CREATE_EMPLOYEE_PATH + "\"")))
+                // the sidebar shows managers the "Medarbejdere" link
+                .andExpect(content().string(containsString("href=\"" + UserController.NEW_EMPLOYEE_PATH + "\"")));
         verify(userService).requireManager(Role.MANAGER);
     }
 
@@ -188,6 +193,5 @@ class UserControllerTest {
      * logout: POST /logout invalidates the session and redirects to /login
      * session: after a correct login, "userName" is stored in the session too
      * rendering: the error message is actually shown in the HTML (content().string(containsString(...)))
-     * header: the "Opret medarbejder" link is shown to managers and not to employees
      */
 }

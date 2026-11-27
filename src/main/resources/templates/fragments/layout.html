@@ -8,21 +8,6 @@
 </head>
 <body>
 
-<header th:fragment="header" class="site-header">
-    <a class="site-header__brand" th:href="@{/}">Smart Project Planner</a>
-    <nav class="site-header__nav" th:if="${session.userId != null}">
-        <a th:if="${session.userRole != null and session.userRole.name() == 'MANAGER'}"
-           th:href="@{/employees/new}">Opret medarbejder</a>
-        <span th:text="${session.userName}">Navn</span>
-        <form class="site-header__logout" th:action="@{/logout}" method="post">
-            <button class="btn btn--link" type="submit">Log ud</button>
-        </form>
-    </nav>
-    <nav class="site-header__nav" th:unless="${session.userId != null}">
-        <a th:href="@{/login}">Log ind</a>
-    </nav>
-</header>
-
 <!-- Flash message (success) -->
 <p th:fragment="flash(message)" class="alert alert--success" role="status" th:text="${message}">Besked</p>
 <!-- Flash message (error) -->

@@ -2,13 +2,13 @@ package dk.ek.smartprojectplanner.controller;
 
 import dk.ek.smartprojectplanner.service.HealthService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * The front page and the health check.
- * The health check is public, so monitoring can use it without logging in.
+ * The front page has no content of its own yet: it sends the user to their projects
+ * until the dashboard exists. The health check is public, so monitoring can use it.
  */
 @Controller
 public class HomeController {
@@ -27,15 +27,14 @@ public class HomeController {
     }
 
     /**
-     * The front page, showing the database status.
+     * The front page. Sends the user to their projects until a dashboard exists;
+     * then this method shows the dashboard instead, and nothing else has to change.
      *
-     * @param model gets the database status
-     * @return the front page template
+     * @return a redirect to the project list
      */
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("dbStatus", healthService.databaseStatus());
-        return "index";
+    public String index() {
+        return "redirect:" + ProjectController.LIST_PATH;
     }
 
     /**

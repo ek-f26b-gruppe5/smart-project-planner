@@ -260,36 +260,7 @@ a {
     align-items: start;
 }
 
-/* 3.7 Site header: the old top bar, still used by index, register and the error pages.
-   It goes away when those pages move to fragments/page.html (sidebar + topbar). */
-.site-header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-sm);
-    padding: var(--space-sm) var(--space-md);
-    border-bottom: var(--border-width-strong) solid var(--color-border);
-}
-
-.site-header__brand {
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text);
-    text-decoration: none;
-}
-
-.site-header__nav {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-}
-
-.site-header__logout {
-    display: inline;
-    margin: 0;
-}
-
-/* 3.8 Container: centres the content on pages without the app shell (login, register) */
+/* 3.8 Container: centres the content on pages without the app shell (login, error pages) */
 .container {
     max-width: var(--container-width);
     margin: var(--space-lg) auto;

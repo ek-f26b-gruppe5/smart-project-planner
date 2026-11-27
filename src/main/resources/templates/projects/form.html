@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Opret projekt')}"><title>Opret projekt</title></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/page :: sidebar('projects')}"></aside>
+    <div class="app__main">
+        <header th:replace="~{fragments/page :: topbar(~{::crumbs})}">
+            <nav th:fragment="crumbs" aria-label="Brødkrummer">
+                <ol class="crumbs">
+                    <li><a class="crumbs__link" th:href="@{/projects}">Projekter</a></li>
+                    <li><span class="crumbs__current" aria-current="page">Opret projekt</span></li>
+                </ol>
+            </nav>
+        </header>
+        <main class="app__content page">
+            <div class="page__head">
+                <h1 class="page__title">Opret projekt</h1>
+            </div>
+
+            <form class="card form" method="post" th:action="@{/projects}" th:object="${project}">
+                <th:block th:if="${error}"><p th:replace="~{fragments/layout :: error(${error})}"></p></th:block>
+
+                <div class="form__field">
+                    <label class="form__label" for="name">Navn <span class="form__required">*</span></label>
+                    <input class="form__input" type="text" th:field="*{name}" required maxlength="100">
+                </div>
+
+                <div class="form__row">
+                    <div class="form__field">
+                        <label class="form__label" for="startDate">Startdato <span class="form__required">*</span></label>
+                        <input class="form__input" type="date" th:field="*{startDate}" required>
+                    </div>
+                    <div class="form__field">
+                        <label class="form__label" for="deadline">Deadline <span class="form__required">*</span></label>
+                        <input class="form__input" type="date" th:field="*{deadline}" required>
+                    </div>
+                </div>
+
+                <div class="form__field">
+                    <label class="form__label" for="description">Beskrivelse</label>
+                    <textarea class="form__input form__input--textarea" th:field="*{description}"
+                              rows="4" maxlength="1000"></textarea>
+                </div>
+
+                <div class="form__actions">
+                    <a class="btn" th:href="@{/projects}">Annullér</a>
+                    <button class="btn btn--primary" type="submit">Gem</button>
+                </div>
+            </form>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+</body>
+</html>

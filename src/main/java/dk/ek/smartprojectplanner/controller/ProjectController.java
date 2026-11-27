@@ -2,6 +2,7 @@ package dk.ek.smartprojectplanner.controller;
 
 import dk.ek.smartprojectplanner.exception.InvalidInputException;
 import dk.ek.smartprojectplanner.model.Project;
+import dk.ek.smartprojectplanner.model.Role;
 import dk.ek.smartprojectplanner.service.ProjectService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,13 +62,17 @@ public class ProjectController {
     }
 
     /**
-     * Shows an empty form for a new project.
+     * Shows an empty form for a new project. Only managers see it; anyone else
+     * gets the 403 page, because the service throws ForbiddenException.
      *
-     * @param model gets an empty project for the form to bind to
+     * @param userRole the logged-in user's role from the session, or null if there is none
+     * @param model    gets an empty project for the form to bind to
      * @return the form template
      */
     @GetMapping(NEW_PATH)
-    public String showCreateForm(Model model) {
+    public String showCreateForm(@SessionAttribute(name = "userRole", required = false) Role userRole,
+                                 Model model) {
+        projectService.requireCanCreate(userRole);   // employees get the 403 page
         model.addAttribute(PROJECT, new Project());
         return FORM_VIEW;
     }
@@ -78,6 +83,7 @@ public class ProjectController {
      * with the error message and what the user typed.
      *
      * @param userId        the logged-in user's id, from the session; never taken from the form
+     * @param userRole      the logged-in user's role from the session; only managers may create
      * @param form          the form fields, bound into a Project
      * @param bindingResult errors from turning the text into a Project, e.g. an unreadable date
      * @param model         gets the error message if something is wrong
@@ -86,16 +92,18 @@ public class ProjectController {
      */
     @PostMapping(CREATE_PATH)
     public String create(@SessionAttribute("userId") int userId,
+                         @SessionAttribute(name = "userRole", required = false) Role userRole,
                          @ModelAttribute(PROJECT) Project form,
                          BindingResult bindingResult,
                          Model model,
                          RedirectAttributes redirect) {
+        projectService.requireCanCreate(userRole);   // first, so an employee never even gets the date message
         if (bindingResult.hasErrors()) {
             model.addAttribute(ERROR, INVALID_DATE);
             return FORM_VIEW;
         }
         try {
-            projectService.create(userId, form);
+            projectService.create(userRole, userId, form);
             redirect.addFlashAttribute(FLASH, CREATED);
             return "redirect:" + LIST_PATH;
         } catch (InvalidInputException e) {
