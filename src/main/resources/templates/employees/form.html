@@ -8,7 +8,7 @@
 
     <th:block th:if="${flash}"><p th:replace="~{fragments/layout :: flash(${flash})}"></p></th:block>
 
-    <form class="card form" method="post" th:action="@{/templates/employees}">
+    <form class="card form" method="post" th:action="@{/employees}">
         <th:block th:if="${error}"><p th:replace="~{fragments/layout :: error(${error})}"></p></th:block>
 
         <div class="form__field">
