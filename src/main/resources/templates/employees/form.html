@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Opret medarbejder')}"><title>Opret medarbejder</title></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container container--narrow">
+    <h1>Opret medarbejder</h1>
+
+    <th:block th:if="${flash}"><p th:replace="~{fragments/layout :: flash(${flash})}"></p></th:block>
+
+    <form class="card form" method="post" th:action="@{/employees}">
+        <th:block th:if="${error}"><p th:replace="~{fragments/layout :: error(${error})}"></p></th:block>
+
+        <div class="form__field">
+            <label class="form__label" for="name">Medarbejderens navn</label>
+            <input class="form__input" id="name" type="text" name="name"
+                   autocomplete="off" required maxlength="100" th:value="${name}">
+        </div>
+
+        <div class="form__field">
+            <label class="form__label" for="email">Medarbejderens e-mail</label>
+            <input class="form__input" id="email" type="email" name="email"
+                   autocomplete="off" required maxlength="255" th:value="${email}">
+        </div>
+
+        <div class="form__field">
+            <label class="form__label" for="password">Startadgangskode (mindst 8 tegn)</label>
+            <input class="form__input" id="password" type="password" name="password"
+                   autocomplete="new-password" required minlength="8">
+        </div>
+
+        <button class="btn btn--primary" type="submit">Opret medarbejder</button>
+    </form>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

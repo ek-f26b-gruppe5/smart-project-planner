@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS app_user (
                                         name          VARCHAR(100) NOT NULL,
     email         VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(100) NOT NULL,
-    role          VARCHAR(20)  NOT NULL DEFAULT 'MANAGER',
+    role          VARCHAR(20)  NOT NULL DEFAULT 'EMPLOYEE',
     CONSTRAINT chk_app_user_role CHECK (role IN ('MANAGER', 'EMPLOYEE'))
     );
 CREATE TABLE IF NOT EXISTS project (

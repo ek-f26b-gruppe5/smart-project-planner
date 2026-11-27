@@ -27,7 +27,7 @@ public class ProjectController {
     static final String FORM_VIEW = "projects/form";
     // -------------------------------------------------------------------------------
 
-    // Model and flash names the templates read. "error" and "flash" match register.html and layout.html
+    // Model and flash names the templates read. "error" and "flash" match login.html and layout.html
     static final String PROJECT = "project";
     static final String PROJECTS = "projects";
     static final String ERROR = "error";

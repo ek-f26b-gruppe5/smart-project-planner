@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Ingen adgang')}"><title>Ingen adgang</title></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <h1>Ingen adgang</h1>
+    <p>Du har ikke adgang til denne side. Kontakt en projektleder, hvis du mener, det er en fejl.</p>
+    <p><a th:href="@{/}">Tilbage til forsiden</a></p>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
