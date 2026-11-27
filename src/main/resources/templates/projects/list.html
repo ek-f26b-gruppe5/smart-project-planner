@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Projekter')}"><title>Projekter</title></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/page :: sidebar('projects')}"></aside>
+    <div class="app__main">
+        <header th:replace="~{fragments/page :: topbar(~{::crumbs})}">
+            <nav th:fragment="crumbs" aria-label="Brødkrummer">
+                <ol class="crumbs">
+                    <li><span class="crumbs__current" aria-current="page">Projekter</span></li>
+                </ol>
+            </nav>
+        </header>
+        <main class="app__content page">
+            <div class="page__head">
+                <h1 class="page__title">Projekter</h1>
+                <div class="page__actions">
+                    <a class="btn btn--primary" th:href="@{/projects/new}">+ Opret projekt</a>
+                </div>
+            </div>
+
+            <th:block th:if="${flash}"><p th:replace="~{fragments/layout :: flash(${flash})}"></p></th:block>
+
+            <p class="text-muted" th:if="${projects.isEmpty()}">Du har ingen projekter endnu.</p>
+
+            <ul class="item-list" th:unless="${projects.isEmpty()}">
+                <li class="item" th:each="p : ${projects}">
+                    <div>
+                        <h2 class="item__title" th:text="${p.name}">Nyt parcelhus</h2>
+                        <p class="item__meta"
+                           th:text="|${#temporals.format(p.startDate, 'dd.MM.yyyy')} – ${#temporals.format(p.deadline, 'dd.MM.yyyy')}|">01.03.2027 – 28.05.2027</p>
+                        <p class="item__meta" th:if="${p.description}" th:text="${p.description}">Beskrivelse</p>
+                    </div>
+                </li>
+            </ul>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+</body>
+</html>

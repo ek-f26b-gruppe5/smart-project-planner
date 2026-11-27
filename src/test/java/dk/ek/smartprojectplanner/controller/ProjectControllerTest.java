@@ -2,6 +2,7 @@ package dk.ek.smartprojectplanner.controller;
 
 import dk.ek.smartprojectplanner.exception.InvalidInputException;
 import dk.ek.smartprojectplanner.model.Project;
+import dk.ek.smartprojectplanner.model.Role;
 import dk.ek.smartprojectplanner.service.ProjectService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -13,8 +14,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -25,8 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Web tests for ProjectController: requests through MockMvc, ProjectService is mocked.
- * Tests that return a view render its template, so they need projects/list.html and
- * projects/form.html to exist. Tests that end in a redirect don't.
+ * Tests that return a view render projects/list.html or projects/form.html.
  */
 @WebMvcTest(ProjectController.class)
 class ProjectControllerTest {
@@ -37,7 +39,7 @@ class ProjectControllerTest {
     @MockitoBean
     private ProjectService projectService;
 
-    // ---------- Work without templates (redirects) ----------
+    // ---------- Redirects ----------
 
     /**
      * Not logged in → redirected to /login, and the service is never called.
@@ -75,5 +77,106 @@ class ProjectControllerTest {
         assertEquals("Byggeri", form.getValue().getDescription());
         assertEquals(LocalDate.of(2027, 3, 1), form.getValue().getStartDate());
         assertEquals(LocalDate.of(2027, 5, 28), form.getValue().getDeadline());
+    }
+
+    // ---------- Render a view (need the templates) ----------
+
+    /**
+     * Logged in → the list view gets the user's projects from the service.
+     */
+    @Test
+    void list_loggedIn_putsUsersProjectsInModel() throws Exception {
+        // Arrange
+        List<Project> projects = List.of(new Project(5, 1, "Nyt parcelhus", null,
+                LocalDate.of(2027, 3, 1), LocalDate.of(2027, 5, 28)));
+        when(projectService.getProjects(1)).thenReturn(projects);
+
+        // Act + Assert
+        mockMvc.perform(get(ProjectController.LIST_PATH).sessionAttr("userId", 1))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ProjectController.LIST_VIEW))
+                .andExpect(model().attribute(ProjectController.PROJECTS, projects));
+    }
+
+    /**
+     * The empty form page gets an empty project to bind to.
+     */
+    @Test
+    void showCreateForm_putsEmptyProjectInModel() throws Exception {
+        // Arrange: logged in, nothing else
+
+        // Act + Assert
+        mockMvc.perform(get(ProjectController.NEW_PATH).sessionAttr("userId", 1))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ProjectController.FORM_VIEW))
+                .andExpect(model().attributeExists(ProjectController.PROJECT))
+                // the rendered form must post to the controller's path (the US5 lesson)
+                .andExpect(content().string(containsString("action=\"" + ProjectController.CREATE_PATH + "\"")));
+    }
+
+    /**
+     * Service rejects the input → form shown again with the service's message and the typed values.
+     */
+    @Test
+    void create_ruleBroken_showsFormAgainWithMessageAndTypedValues() throws Exception {
+        // Arrange
+        when(projectService.create(eq(1), any()))
+                .thenThrow(new InvalidInputException("Deadline kan ikke ligge før startdatoen."));
+
+        // Act + Assert
+        mockMvc.perform(post(ProjectController.CREATE_PATH).sessionAttr("userId", 1)
+                        .param("name", "Baglæns")
+                        .param("startDate", "2027-05-28")
+                        .param("deadline", "2027-03-01"))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ProjectController.FORM_VIEW))
+                .andExpect(model().attribute(ProjectController.ERROR, "Deadline kan ikke ligge før startdatoen."))
+                .andExpect(model().attribute(ProjectController.PROJECT, hasProperty("name", is("Baglæns"))));
+    }
+
+    /**
+     * A date that can't be read → form shown again with the date message, and the service is never called.
+     */
+    @Test
+    void create_malformedDate_showsFormAndNeverCallsService() throws Exception {
+        // Arrange: nothing to stub; the service must not be reached
+
+        // Act + Assert
+        mockMvc.perform(post(ProjectController.CREATE_PATH).sessionAttr("userId", 1)
+                        .param("name", "Projekt")
+                        .param("startDate", "ikke-en-dato")
+                        .param("deadline", "2027-05-28"))
+                .andExpect(view().name(ProjectController.FORM_VIEW))
+                .andExpect(model().attributeHasFieldErrors(ProjectController.PROJECT, "startDate"))
+                .andExpect(model().attribute(ProjectController.ERROR, ProjectController.INVALID_DATE));
+        verifyNoInteractions(projectService);
+    }
+
+    // ---------- App shell on the list page (where users land after login) ----------
+
+    /**
+     * A manager sees "Medarbejdere" in the sidebar, linking to the employee form.
+     */
+    @Test
+    void list_manager_sidebarShowsEmployeesLink() throws Exception {
+        // Arrange: getProjects returns an empty list (the mock's default)
+
+        // Act + Assert
+        mockMvc.perform(get(ProjectController.LIST_PATH).sessionAttr("userId", 1)
+                        .sessionAttr("userRole", Role.MANAGER))
+                .andExpect(content().string(containsString("href=\"" + UserController.NEW_EMPLOYEE_PATH + "\"")));
+    }
+
+    /**
+     * An employee doesn't see the "Medarbejdere" link.
+     */
+    @Test
+    void list_employee_sidebarHidesEmployeesLink() throws Exception {
+        // Arrange: getProjects returns an empty list (the mock's default)
+
+        // Act + Assert
+        mockMvc.perform(get(ProjectController.LIST_PATH).sessionAttr("userId", 2)
+                        .sessionAttr("userRole", Role.EMPLOYEE))
+                .andExpect(content().string(not(containsString("href=\"" + UserController.NEW_EMPLOYEE_PATH + "\""))));
     }
 }
