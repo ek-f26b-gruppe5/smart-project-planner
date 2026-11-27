@@ -61,8 +61,4 @@ class HomeControllerTest {
                 .andExpect(content().string("ERROR"));
     }
 
-    @Test
-    void printHash() {
-        System.out.println(new BCryptPasswordEncoder().encode("password"));
-    }
 }
