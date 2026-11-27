@@ -4,10 +4,10 @@ import dk.ek.smartprojectplanner.service.HealthService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -21,20 +21,15 @@ class HomeControllerTest {
     HealthService healthService;
 
     /**
-     * The front page gets the database status from the service.
+     * Logged in, the front page sends the user to their projects.
      */
     @Test
-    void index_showsDbStatus() throws Exception {
-        // Arrange
-        when(healthService.databaseStatus()).thenReturn("OK");
+    void index_loggedIn_redirectsToProjects() throws Exception {
+        // Arrange: logged in, nothing to stub
 
         // Act + Assert
-        mockMvc.perform(get("/").sessionAttr("userId", 1).sessionAttr("userName", "Test"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andExpect(model().attribute("dbStatus", "OK"));
-
-        verify(healthService).databaseStatus();
+        mockMvc.perform(get("/").sessionAttr("userId", 1))
+                .andExpect(redirectedUrl(ProjectController.LIST_PATH));
     }
 
     // ---------- health check ----------
@@ -64,5 +59,10 @@ class HomeControllerTest {
         // Act + Assert
         mockMvc.perform(get(HomeController.HEALTH_PATH))
                 .andExpect(content().string("ERROR"));
+    }
+
+    @Test
+    void printHash() {
+        System.out.println(new BCryptPasswordEncoder().encode("password"));
     }
 }

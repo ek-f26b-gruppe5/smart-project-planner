@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--
+  App shell: the sidebar and topbar for every page behind the login.
+  Shared parts for all pages (head, flash, error, footer) are in fragments/layout.html.
+  A page writes:
+
+    <div class="app">
+      <aside th:replace="~{fragments/page :: sidebar('projects')}"></aside>
+      <div class="app__main">
+        <header th:replace="~{fragments/page :: topbar(~{::crumbs})}">
+          <nav th:fragment="crumbs" aria-label="Brødkrummer"> ...the page's own trail... </nav>
+        </header>
+        <main class="app__content page"> ... </main>
+      </div>
+    </div>
+-->
+
+<!-- Sidebar: the main menu. active is 'projects' or 'employees'.
+     "Dashboard" (wireframe 02) is added here when the dashboard exists -->
+<aside th:fragment="sidebar(active)" class="sidebar">
+    <a class="sidebar__brand" th:href="@{/projects}">Smart Project Planner</a>
+    <nav class="sidebar__nav" aria-label="Hovedmenu">
+        <a class="sidebar__link" th:href="@{/projects}"
+           th:classappend="${active == 'projects'} ? 'sidebar__link--active'"
+           th:aria-current="${active == 'projects'} ? 'page'">Projekter</a>
+        <!-- Only managers can create employees (US5). Points to the form until an employee list exists -->
+        <a class="sidebar__link" th:href="@{/employees/new}"
+           th:if="${session.userRole != null and session.userRole.name() == 'MANAGER'}"
+           th:classappend="${active == 'employees'} ? 'sidebar__link--active'"
+           th:aria-current="${active == 'employees'} ? 'page'">Medarbejdere</a>
+    </nav>
+</aside>
+
+<!-- Topbar: the page's breadcrumbs on the left (passed in as markup), the user and log out on the right -->
+<header th:fragment="topbar(crumbs)" class="topbar">
+    <th:block th:replace="${crumbs}"></th:block>
+    <div class="topbar__user">
+        <span th:text="${session.userName}">Navn</span>
+        <form class="topbar__logout" th:action="@{/logout}" method="post">
+            <button class="btn btn--link" type="submit">Log ud</button>
+        </form>
+    </div>
+</header>
+
+</body>
+</html>
