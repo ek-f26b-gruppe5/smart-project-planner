@@ -2,6 +2,7 @@ package dk.ek.smartprojectplanner.service;
 
 import dk.ek.smartprojectplanner.exception.InvalidInputException;
 import dk.ek.smartprojectplanner.model.Project;
+import dk.ek.smartprojectplanner.model.Role;
 import dk.ek.smartprojectplanner.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,20 +23,44 @@ public class ProjectService {
     static final String DEADLINE_BEFORE_START = "Deadline kan ikke ligge før startdatoen.";
 
     private final ProjectRepository projectRepository;
+    private final UserService userService;
 
-    public ProjectService(ProjectRepository projectRepository) {
+    /**
+     * Creates the service with what it needs.
+     *
+     * @param projectRepository the SQL for projects
+     * @param userService       owns the "only managers" rule, reused here
+     */
+    public ProjectService(ProjectRepository projectRepository, UserService userService) {
         this.projectRepository = projectRepository;
+        this.userService = userService;
     }
 
     /**
-     * Creates a project for the given manager.
+     * Checks that the logged-in user may create projects (only managers).
+     * The controller calls this before showing the form.
      *
-     * @param managerId the logged-in user's id
-     * @param form      the values from the form
+     * @param role the logged-in user's role; may be null
+     * @throws dk.ek.smartprojectplanner.exception.ForbiddenException if the role isn't MANAGER
+     */
+    public void requireCanCreate(Role role) {
+        userService.requireManager(role);
+    }
+
+    /**
+     * Creates a project for the given manager. Only managers may do this.
+     *
+     * @param creatorRole the logged-in user's role; checked first
+     * @param managerId   the logged-in user's id
+     * @param form        the values from the form
      * @return the new project's id
+     * @throws dk.ek.smartprojectplanner.exception.ForbiddenException if the creator isn't a manager; nothing is checked or saved
      * @throws InvalidInputException if a rule is broken; nothing is saved
      */
-    public int create(int managerId, Project form) {
+    public int create(Role creatorRole, int managerId, Project form) {
+        // 0. Only managers may create projects. Checked first, so nothing else happens if not
+        requireCanCreate(creatorRole);
+
         // 1. clean
         String name = form.getName() == null ? "" : form.getName().trim();
         String description = form.getDescription() == null ? "" : form.getDescription().trim();

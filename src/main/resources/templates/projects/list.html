@@ -15,7 +15,8 @@
         <main class="app__content page">
             <div class="page__head">
                 <h1 class="page__title">Projekter</h1>
-                <div class="page__actions">
+                <div class="page__actions"
+                     th:if="${session.userRole != null and session.userRole.name() == 'MANAGER'}">
                     <a class="btn btn--primary" th:href="@{/projects/new}">+ Opret projekt</a>
                 </div>
             </div>

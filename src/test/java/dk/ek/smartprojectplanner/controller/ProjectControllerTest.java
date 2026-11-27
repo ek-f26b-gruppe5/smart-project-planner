@@ -1,5 +1,6 @@
 package dk.ek.smartprojectplanner.controller;
 
+import dk.ek.smartprojectplanner.exception.ForbiddenException;
 import dk.ek.smartprojectplanner.exception.InvalidInputException;
 import dk.ek.smartprojectplanner.model.Project;
 import dk.ek.smartprojectplanner.model.Role;
@@ -20,6 +21,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -63,6 +65,7 @@ class ProjectControllerTest {
 
         // Act
         mockMvc.perform(post(ProjectController.CREATE_PATH).sessionAttr("userId", 1)
+                        .sessionAttr("userRole", Role.MANAGER)
                         .param("name", "Nyt parcelhus")
                         .param("description", "Byggeri")
                         .param("startDate", "2027-03-01")
@@ -72,7 +75,7 @@ class ProjectControllerTest {
                 .andExpect(flash().attribute(ProjectController.FLASH, ProjectController.CREATED));
 
         ArgumentCaptor<Project> form = ArgumentCaptor.forClass(Project.class);
-        verify(projectService).create(eq(1), form.capture());
+        verify(projectService).create(eq(Role.MANAGER), eq(1), form.capture());
         assertEquals("Nyt parcelhus", form.getValue().getName());
         assertEquals("Byggeri", form.getValue().getDescription());
         assertEquals(LocalDate.of(2027, 3, 1), form.getValue().getStartDate());
@@ -106,7 +109,8 @@ class ProjectControllerTest {
         // Arrange: logged in, nothing else
 
         // Act + Assert
-        mockMvc.perform(get(ProjectController.NEW_PATH).sessionAttr("userId", 1))
+        mockMvc.perform(get(ProjectController.NEW_PATH).sessionAttr("userId", 1)
+                        .sessionAttr("userRole", Role.MANAGER))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ProjectController.FORM_VIEW))
                 .andExpect(model().attributeExists(ProjectController.PROJECT))
@@ -120,11 +124,12 @@ class ProjectControllerTest {
     @Test
     void create_ruleBroken_showsFormAgainWithMessageAndTypedValues() throws Exception {
         // Arrange
-        when(projectService.create(eq(1), any()))
+        when(projectService.create(eq(Role.MANAGER), eq(1), any()))
                 .thenThrow(new InvalidInputException("Deadline kan ikke ligge før startdatoen."));
 
         // Act + Assert
         mockMvc.perform(post(ProjectController.CREATE_PATH).sessionAttr("userId", 1)
+                        .sessionAttr("userRole", Role.MANAGER)
                         .param("name", "Baglæns")
                         .param("startDate", "2027-05-28")
                         .param("deadline", "2027-03-01"))
@@ -135,7 +140,7 @@ class ProjectControllerTest {
     }
 
     /**
-     * A date that can't be read → form shown again with the date message, and the service is never called.
+     * A date that can't be read → form shown again with the date message, and nothing is created.
      */
     @Test
     void create_malformedDate_showsFormAndNeverCallsService() throws Exception {
@@ -143,13 +148,14 @@ class ProjectControllerTest {
 
         // Act + Assert
         mockMvc.perform(post(ProjectController.CREATE_PATH).sessionAttr("userId", 1)
+                        .sessionAttr("userRole", Role.MANAGER)
                         .param("name", "Projekt")
                         .param("startDate", "ikke-en-dato")
                         .param("deadline", "2027-05-28"))
                 .andExpect(view().name(ProjectController.FORM_VIEW))
                 .andExpect(model().attributeHasFieldErrors(ProjectController.PROJECT, "startDate"))
                 .andExpect(model().attribute(ProjectController.ERROR, ProjectController.INVALID_DATE));
-        verifyNoInteractions(projectService);
+        verify(projectService, never()).create(any(), anyInt(), any());
     }
 
     // ---------- App shell on the list page (where users land after login) ----------
@@ -178,5 +184,69 @@ class ProjectControllerTest {
         mockMvc.perform(get(ProjectController.LIST_PATH).sessionAttr("userId", 2)
                         .sessionAttr("userRole", Role.EMPLOYEE))
                 .andExpect(content().string(not(containsString("href=\"" + UserController.NEW_EMPLOYEE_PATH + "\""))));
+    }
+
+    // ---------- only managers create projects ----------
+
+    /**
+     * An employee opens the create form → the 403 page.
+     */
+    @Test
+    void showCreateForm_employee_shows403Page() throws Exception {
+        // Arrange
+        doThrow(new ForbiddenException("Du har ikke adgang til denne side."))
+                .when(projectService).requireCanCreate(Role.EMPLOYEE);
+
+        // Act + Assert
+        mockMvc.perform(get(ProjectController.NEW_PATH).sessionAttr("userId", 2)
+                        .sessionAttr("userRole", Role.EMPLOYEE))
+                .andExpect(status().isForbidden())
+                .andExpect(view().name("error/403"));
+    }
+
+    /**
+     * An employee submits the form anyway (e.g. by hand) → the 403 page, and nothing is created.
+     */
+    @Test
+    void create_employee_shows403PageAndCreatesNothing() throws Exception {
+        // Arrange
+        doThrow(new ForbiddenException("Du har ikke adgang til denne side."))
+                .when(projectService).requireCanCreate(Role.EMPLOYEE);
+
+        // Act + Assert
+        mockMvc.perform(post(ProjectController.CREATE_PATH).sessionAttr("userId", 2)
+                        .sessionAttr("userRole", Role.EMPLOYEE)
+                        .param("name", "Projekt")
+                        .param("startDate", "2027-03-01")
+                        .param("deadline", "2027-05-28"))
+                .andExpect(status().isForbidden())
+                .andExpect(view().name("error/403"));
+        verify(projectService, never()).create(any(), anyInt(), any());
+    }
+
+    /**
+     * A manager sees "+ Opret projekt" on the list.
+     */
+    @Test
+    void list_manager_showsCreateButton() throws Exception {
+        // Arrange: getProjects returns an empty list (the mock's default)
+
+        // Act + Assert
+        mockMvc.perform(get(ProjectController.LIST_PATH).sessionAttr("userId", 1)
+                        .sessionAttr("userRole", Role.MANAGER))
+                .andExpect(content().string(containsString("href=\"" + ProjectController.NEW_PATH + "\"")));
+    }
+
+    /**
+     * An employee doesn't see "+ Opret projekt".
+     */
+    @Test
+    void list_employee_hidesCreateButton() throws Exception {
+        // Arrange: getProjects returns an empty list (the mock's default)
+
+        // Act + Assert
+        mockMvc.perform(get(ProjectController.LIST_PATH).sessionAttr("userId", 2)
+                        .sessionAttr("userRole", Role.EMPLOYEE))
+                .andExpect(content().string(not(containsString("href=\"" + ProjectController.NEW_PATH + "\""))));
     }
 }

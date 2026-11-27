@@ -1,7 +1,9 @@
 package dk.ek.smartprojectplanner.service;
 
+import dk.ek.smartprojectplanner.exception.ForbiddenException;
 import dk.ek.smartprojectplanner.exception.InvalidInputException;
 import dk.ek.smartprojectplanner.model.Project;
+import dk.ek.smartprojectplanner.model.Role;
 import dk.ek.smartprojectplanner.repository.ProjectRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,12 +25,15 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ProjectServiceTest {
 
-    private static final int MANAGER = 1;
+    private static final int MANAGER_ID = 1;
     private static final LocalDate START = LocalDate.of(2027, 3, 1);
     private static final LocalDate DEADLINE = LocalDate.of(2027, 5, 28);
 
     @Mock
     private ProjectRepository projectRepository;
+
+    @Mock
+    private UserService userService;   // owns the "only managers" rule; does nothing unless told to throw
 
     @InjectMocks
     private ProjectService service;
@@ -43,6 +48,65 @@ class ProjectServiceTest {
         return p;
     }
 
+    // ---------- who may create ----------
+
+    /**
+     * An employee tries to create a project → ForbiddenException, and the repository is never touched.
+     */
+    @Test
+    void create_creatorIsEmployee_throwsForbiddenAndSavesNothing() {
+        // Arrange: valid input, so only the role can be the reason
+        doThrow(new ForbiddenException(UserService.ACCESS_DENIED)).when(userService).requireManager(Role.EMPLOYEE);
+        Project form = form("Projekt", null, START, DEADLINE);
+
+        // Act + Assert
+        assertThrows(ForbiddenException.class, () -> service.create(Role.EMPLOYEE, 2, form));
+        verifyNoInteractions(projectRepository);
+    }
+
+    /**
+     * No role (e.g. a session without one) → ForbiddenException, and nothing is saved.
+     */
+    @Test
+    void create_creatorRoleNull_throwsForbidden() {
+        // Arrange
+        doThrow(new ForbiddenException(UserService.ACCESS_DENIED)).when(userService).requireManager(null);
+        Project form = form("Projekt", null, START, DEADLINE);
+
+        // Act + Assert
+        assertThrows(ForbiddenException.class, () -> service.create(null, 1, form));
+        verifyNoInteractions(projectRepository);
+    }
+
+    /**
+     * An employee with invalid input gets ForbiddenException, not a validation message.
+     */
+    @Test
+    void create_creatorIsEmployeeAndInputInvalid_throwsForbiddenNotInvalidInput() {
+        // Arrange: both the role and the name are wrong
+        doThrow(new ForbiddenException(UserService.ACCESS_DENIED)).when(userService).requireManager(Role.EMPLOYEE);
+        Project form = form("", null, null, null);
+
+        // Act + Assert
+        assertThrows(ForbiddenException.class, () -> service.create(Role.EMPLOYEE, 2, form));
+    }
+
+    /**
+     * A manager → the service asks UserService to check the role before saving.
+     */
+    @Test
+    void create_manager_checksRoleThenSaves() {
+        // Arrange
+        Project form = form("Projekt", null, START, DEADLINE);
+
+        // Act
+        service.create(Role.MANAGER, MANAGER_ID, form);
+
+        // Assert
+        verify(userService).requireManager(Role.MANAGER);
+        verify(projectRepository).save(any());
+    }
+
     // ---------- valid input ----------
 
     /**
@@ -54,13 +118,13 @@ class ProjectServiceTest {
         when(projectRepository.save(any())).thenReturn(7);
 
         // Act
-        int id = service.create(MANAGER, form("  Nyt parcelhus  ", "  Byggeri ", START, DEADLINE));
+        int id = service.create(Role.MANAGER, MANAGER_ID, form("  Nyt parcelhus  ", "  Byggeri ", START, DEADLINE));
 
         // Assert
         assertEquals(7, id);
         ArgumentCaptor<Project> saved = ArgumentCaptor.forClass(Project.class);
         verify(projectRepository).save(saved.capture());
-        assertEquals(MANAGER, saved.getValue().getManagerId());
+        assertEquals(MANAGER_ID, saved.getValue().getManagerId());
         assertEquals("Nyt parcelhus", saved.getValue().getName());
         assertEquals("Byggeri", saved.getValue().getDescription());
         assertEquals(START, saved.getValue().getStartDate());
@@ -76,7 +140,7 @@ class ProjectServiceTest {
         Project form = form("Projekt", "   ", START, DEADLINE);
 
         // Act
-        service.create(MANAGER, form);
+        service.create(Role.MANAGER, MANAGER_ID, form);
 
         // Assert
         ArgumentCaptor<Project> saved = ArgumentCaptor.forClass(Project.class);
@@ -98,7 +162,7 @@ class ProjectServiceTest {
 
         // Act + Assert
         InvalidInputException e = assertThrows(InvalidInputException.class,
-                () -> service.create(MANAGER, form));
+                () -> service.create(Role.MANAGER, MANAGER_ID, form));
         assertEquals(ProjectService.NAME_REQUIRED, e.getMessage());
         verify(projectRepository, never()).save(any());
     }
@@ -112,7 +176,7 @@ class ProjectServiceTest {
         Project form = form("a".repeat(ProjectService.MAX_NAME_LENGTH), null, START, DEADLINE);
 
         // Act
-        service.create(MANAGER, form);
+        service.create(Role.MANAGER, MANAGER_ID, form);
 
         // Assert
         verify(projectRepository).save(any());
@@ -128,7 +192,7 @@ class ProjectServiceTest {
 
         // Act + Assert
         InvalidInputException e = assertThrows(InvalidInputException.class,
-                () -> service.create(MANAGER, form));
+                () -> service.create(Role.MANAGER, MANAGER_ID, form));
         assertEquals(ProjectService.NAME_TOO_LONG, e.getMessage());
         verify(projectRepository, never()).save(any());
     }
@@ -145,7 +209,7 @@ class ProjectServiceTest {
 
         // Act + Assert
         InvalidInputException e = assertThrows(InvalidInputException.class,
-                () -> service.create(MANAGER, form));
+                () -> service.create(Role.MANAGER, MANAGER_ID, form));
         assertEquals(ProjectService.DESCRIPTION_TOO_LONG, e.getMessage());
         verify(projectRepository, never()).save(any());
     }
@@ -162,7 +226,7 @@ class ProjectServiceTest {
 
         // Act + Assert
         InvalidInputException e = assertThrows(InvalidInputException.class,
-                () -> service.create(MANAGER, form));
+                () -> service.create(Role.MANAGER, MANAGER_ID, form));
         assertEquals(ProjectService.START_DATE_REQUIRED, e.getMessage());
         verify(projectRepository, never()).save(any());
     }
@@ -177,7 +241,7 @@ class ProjectServiceTest {
 
         // Act + Assert
         InvalidInputException e = assertThrows(InvalidInputException.class,
-                () -> service.create(MANAGER, form));
+                () -> service.create(Role.MANAGER, MANAGER_ID, form));
         assertEquals(ProjectService.DEADLINE_REQUIRED, e.getMessage());
         verify(projectRepository, never()).save(any());
     }
@@ -192,7 +256,7 @@ class ProjectServiceTest {
 
         // Act + Assert
         InvalidInputException e = assertThrows(InvalidInputException.class,
-                () -> service.create(MANAGER, form));
+                () -> service.create(Role.MANAGER, MANAGER_ID, form));
         assertEquals(ProjectService.DEADLINE_BEFORE_START, e.getMessage());
         verify(projectRepository, never()).save(any());
     }
@@ -206,7 +270,7 @@ class ProjectServiceTest {
         Project form = form("Endagsprojekt", null, START, START);
 
         // Act
-        service.create(MANAGER, form);
+        service.create(Role.MANAGER, MANAGER_ID, form);
 
         // Assert
         verify(projectRepository).save(any());
